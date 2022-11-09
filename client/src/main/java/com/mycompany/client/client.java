@@ -4,10 +4,16 @@
  */
 package com.mycompany.client;
 
+import java.awt.AWTException;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -35,16 +41,17 @@ public class client extends javax.swing.JFrame {
         connect = new javax.swing.JButton();
         ip = new javax.swing.JTextField();
         process = new javax.swing.JButton();
-        registry = new javax.swing.JButton();
+        shutdownrestart = new javax.swing.JButton();
         app = new javax.swing.JButton();
-        shutdown = new javax.swing.JButton();
         screen = new javax.swing.JButton();
         keylog = new javax.swing.JButton();
         thoat = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Client");
+        setBackground(new java.awt.Color(60, 242, 235));
 
+        connect.setBackground(new java.awt.Color(153, 65, 54));
         connect.setText("Kết nối");
         connect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -61,10 +68,10 @@ public class client extends javax.swing.JFrame {
             }
         });
 
-        registry.setText("Sửa Registry");
-        registry.addActionListener(new java.awt.event.ActionListener() {
+        shutdownrestart.setText("Shutdown, Restart");
+        shutdownrestart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registryActionPerformed(evt);
+                shutdownrestartActionPerformed(evt);
             }
         });
 
@@ -72,13 +79,6 @@ public class client extends javax.swing.JFrame {
         app.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 appActionPerformed(evt);
-            }
-        });
-
-        shutdown.setText("Tắt máy");
-        shutdown.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                shutdownActionPerformed(evt);
             }
         });
 
@@ -114,12 +114,9 @@ public class client extends javax.swing.JFrame {
                         .addComponent(process, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(registry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(shutdown)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(screen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(app, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(shutdownrestart, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                            .addComponent(app, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(screen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(ip))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -142,13 +139,11 @@ public class client extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(app, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(shutdown, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(screen, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(screen, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(keylog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(registry, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                            .addComponent(shutdownrestart, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
                             .addComponent(thoat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(process, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE))
                 .addGap(35, 35, 35))
@@ -158,20 +153,31 @@ public class client extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectActionPerformed
+        String s;
         Boolean test = true;
-        try {
-            program.client1 = new Socket(ip.getText(),2003);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Lỗi kết nối đến server");
+        program.ip=ip.getText();
+        try{          
+            SocketAddress socketaddr = new InetSocketAddress(program.ip,2003); //tạo socket address với biến socketaddr cùng vời địa chỉ ip và port
+            program.client1 = new Socket();
+            program.client1.connect(socketaddr); //connect với server
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(rootPane, "Lỗi kết nối đến server");
             test = false;
-            program.client1=null;
+            program.client1 = null;
         }
+//        try {
+//            program.client1 = new Socket(ip.getText(),2003);
+//        } catch (IOException ex) {
+//            JOptionPane.showMessageDialog(null, "Lỗi kết nối đến server");
+//            test = false;
+//            program.client1=null;
+//        }
         if (test){
             try {
                 String st = "Kết nối server thành công";
                 JOptionPane.showMessageDialog(null, st);
-                program.ir= new InputStreamReader(program.client1.getInputStream());
-                program.ow=new OutputStreamWriter(program.client1.getOutputStream());
+                program.out=new BufferedWriter(new OutputStreamWriter(program.client1.getOutputStream()));
+                program.in=new BufferedReader(new InputStreamReader(program.client1.getInputStream()));
             } catch (IOException ex) {
                 Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -185,29 +191,19 @@ public class client extends javax.swing.JFrame {
                 return;
             }
             String s="TAKEPIC";
-            program.ow.write(s);
-            program.ow.flush();
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
             pic screen = new pic();
             //screen.lam();
+            screen.sent();
             screen.setVisible(true);
         } catch (IOException ex) {
             Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_screenActionPerformed
-
-    private void shutdownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shutdownActionPerformed
-        try {
-            if (program.client1 == null){
-                JOptionPane.showMessageDialog(null, "Chưa kết nối đến server");
-                return;
-            }
-            String s="SHUTDOWN";
-            program.ow.write(s);
-            program.ow.flush();
-        } catch (IOException ex) {
+        } catch (AWTException ex) {
             Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_shutdownActionPerformed
+    }//GEN-LAST:event_screenActionPerformed
 
     private void appActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appActionPerformed
         try {
@@ -216,8 +212,9 @@ public class client extends javax.swing.JFrame {
                 return;
             }
             String s="APPLICATION";
-            program.ow.write(s);
-            program.ow.flush();
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
             listApp app =new listApp();
             app.setVisible(true);
         } catch (IOException ex) {
@@ -232,8 +229,9 @@ public class client extends javax.swing.JFrame {
                 return;
             }
             String s="PROCESS";
-            program.ow.write(s);
-            program.ow.flush();
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
             listProcess process =new listProcess();
             process.setVisible(true);
         } catch (IOException ex) {
@@ -248,33 +246,46 @@ public class client extends javax.swing.JFrame {
                 return;
             }
             String s="KEYLOG";
-            program.ow.write(s);
-            program.ow.flush();
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
         } catch (IOException ex) {
             Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_keylogActionPerformed
 
-    private void registryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registryActionPerformed
+    private void shutdownrestartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shutdownrestartActionPerformed
         try {
             if (program.client1 == null){
                 JOptionPane.showMessageDialog(null, "Chưa kết nối đến server");
                 return;
             }
-            String s="REGISTRY";
-            program.ow.write(s);
-            program.ow.flush();
+            String s="FEATURE";
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
+            feature fea=new feature();
+            fea.setVisible(true);
         } catch (IOException ex) {
             Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_registryActionPerformed
+    }//GEN-LAST:event_shutdownrestartActionPerformed
 
     private void thoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thoatActionPerformed
-//        String s="QUIT";
-//        if (program.client1 != null){
-//            program.ow.write(s);
-//            program.ow.flush();
-//        }
+        if(program.client1 == null)
+        {
+            JOptionPane.showMessageDialog(rootPane, "Chưa kết nối tới server");
+            return;
+        }
+        String s="QUIT";
+        try {
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose(); 
     }//GEN-LAST:event_thoatActionPerformed
 
     /**
@@ -318,9 +329,8 @@ public class client extends javax.swing.JFrame {
     private javax.swing.JTextField ip;
     private javax.swing.JButton keylog;
     private javax.swing.JButton process;
-    private javax.swing.JButton registry;
     private javax.swing.JButton screen;
-    private javax.swing.JButton shutdown;
+    private javax.swing.JButton shutdownrestart;
     private javax.swing.JButton thoat;
     // End of variables declaration//GEN-END:variables
 }

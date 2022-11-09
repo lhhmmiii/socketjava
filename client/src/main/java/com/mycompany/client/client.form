@@ -4,6 +4,9 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="Client"/>
+    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+      <Color blue="eb" green="f2" red="3c" type="rgb"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -31,13 +34,9 @@
                       <Component id="process" pref="88" max="32767" attributes="0"/>
                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="registry" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="shutdown" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="screen" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="shutdownrestart" pref="187" max="32767" attributes="0"/>
                           <Component id="app" alignment="0" max="32767" attributes="0"/>
+                          <Component id="screen" alignment="1" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="ip" max="32767" attributes="0"/>
@@ -67,16 +66,13 @@
                           <Group type="102" attributes="0">
                               <Component id="app" min="-2" pref="63" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="shutdown" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                                  <Component id="screen" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="screen" min="-2" pref="31" max="-2" attributes="0"/>
                           </Group>
                           <Component id="keylog" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="registry" pref="76" max="32767" attributes="0"/>
+                          <Component id="shutdownrestart" pref="76" max="32767" attributes="0"/>
                           <Component id="thoat" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -90,6 +86,9 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="connect">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="36" green="41" red="99" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="K&#x1ebf;t n&#x1ed1;i"/>
       </Properties>
       <Events>
@@ -109,12 +108,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="processActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="registry">
+    <Component class="javax.swing.JButton" name="shutdownrestart">
       <Properties>
-        <Property name="text" type="java.lang.String" value="S&#x1eed;a Registry"/>
+        <Property name="text" type="java.lang.String" value="Shutdown, Restart"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="registryActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="shutdownrestartActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="app">
@@ -123,14 +122,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="appActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="shutdown">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="T&#x1eaf;t m&#xe1;y"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="shutdownActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="screen">

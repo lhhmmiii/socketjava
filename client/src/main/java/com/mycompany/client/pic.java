@@ -81,7 +81,6 @@ public class pic extends javax.swing.JFrame {
             Robot r = new Robot();            
             Rectangle capture=new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
             BufferedImage screen = r.createScreenCapture(capture);
-//            ImageIcon icon=new ImageIcon(screen);
             jLabel1.getGraphics().drawImage(screen,0,0,jLabel1.getWidth(),jLabel1.getHeight(),null);    
         }
         catch (AWTException | InterruptedException ex) {
@@ -91,9 +90,9 @@ public class pic extends javax.swing.JFrame {
     public void sent() throws AWTException{
         try {
             String s="TAKEPIC";
-            program.ow.write(s);
-            program.ow.flush();
-            s=program.br.readLine();
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
             OutputStream sOutToServer = program.client1.getOutputStream();
             DataOutputStream out = new DataOutputStream(sOutToServer);
             InputStream sInFromServer = program.client1.getInputStream();
