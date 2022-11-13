@@ -119,17 +119,6 @@ public class listProcess extends javax.swing.JFrame {
             Logger.getLogger(process.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {
-        try {
-            String s = "QUIT";
-            program.os.write(s);
-            program.os.newLine();
-            program.os.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     /**
      * @param args the command line arguments
