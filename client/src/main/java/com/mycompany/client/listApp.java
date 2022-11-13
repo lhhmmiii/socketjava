@@ -31,24 +31,24 @@ public class listApp extends javax.swing.JFrame {
         xem = new javax.swing.JButton();
         xoa = new javax.swing.JButton();
         start = new javax.swing.JButton();
+        text = new javax.swing.JTextFiled();
         scroll = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Application");
         
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
+        kill.setText("KILL");
+        kill.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                killActionPerformed(evt);
             }
         });
-        
-        kill.setText("KILL");
         
         xem.setText("XEM");
         xem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                XemActionPerformed(evt);
+                xemActionPerformed(evt);
             }
         });
         
@@ -57,7 +57,7 @@ public class listApp extends javax.swing.JFrame {
         start.setText("START");
         start.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StartActionPerformed(evt);
+                startActionPerformed(evt);
             }
         });
         
@@ -97,7 +97,7 @@ public class listApp extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    private void XemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_XemActionPerformed
+    private void xemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_XemActionPerformed
         try {
             String s = "XEM";
             program.os.write(s);
@@ -119,6 +119,59 @@ public class listApp extends javax.swing.JFrame {
             Logger.getLogger(process.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void killActionPerformed(java.awt.event.ActionEvent evt) {
+        String s = "KILL";
+        try {
+            program.os.write(s);
+            program.os.newLine();
+            program.os.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(kill.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String flag = text.getText();
+        if (text.getText() == null){
+            flag = "ERROR";
+        }
+        try {
+            program.os.write(flag);
+            program.os.newLine();
+            program.os.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(kill.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            String read = program.is.readLine();
+            JOptionPane.showMessageDialog(rootPane, read);
+        } catch (IOException ex) {
+            Logger.getLogger(kill.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+     private void startActionPerformed(java.awt.event.ActionEvent evt) {
+            String s = "START";
+            try {
+                program.os.write(s);
+                program.os.newLine();
+                program.os.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(start.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String flag = text.getText();
+            try {
+                program.os.write(flag);
+                program.os.newLine();
+                program.os.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(start.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                String read = program.is.readLine();
+                JOptionPane.showMessageDialog(rootPane, read);
+            } catch (IOException ex) {
+                Logger.getLogger(start.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
     /**
      * @param args the command line arguments
