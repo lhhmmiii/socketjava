@@ -210,6 +210,49 @@ public class server extends javax.swing.JFrame {
                       JOptionPane.showMessageDialog(null,e);
                     }
                 }
+                  case "START" ->{
+                      String exe = program.is.readLine();
+                      if (exe != "ERROR")
+                      {
+                        try {
+                            Runtime.getRuntime().exec("powershell " + "start " + name + ".exe");
+                            program.os.write("Run program successfully!");
+                            program.os.newLine();
+                            program.os.flush();
+                        } catch (IOException ex) {
+                            program.os.write("Run program fail!");
+                            program.os.newLine();
+                            program.os.flush();
+                        }
+                      } else {
+                        program.os.write("Run program fail!");
+                        program.os.newLine();
+                        program.os.flush();
+                        break;
+                      }
+                  }
+                  case "KILL" ->{
+                      String pid = program.is.readLine();
+                      if (pid != null)
+                      {
+                        try {
+                            Runtime.getRuntime().exec("taskkill /F /PID " + pid);
+                            program.os.write("Kill program successfully!");
+                            program.os.newLine();
+                            program.os.flush();
+                        } catch (IOException ex) {
+                            program.os.write("Kill program fail!");
+                            program.os.newLine();
+                            program.os.flush();
+                            break;
+                        }
+                      } else {
+                            program.os.write("Kill program fail!");
+                            program.os.newLine();
+                            program.os.flush();
+                            break;
+                        }
+                  }
                   case "QUIT" -> {
                       break;
                 }
@@ -264,6 +307,49 @@ public class server extends javax.swing.JFrame {
                       JOptionPane.showMessageDialog(null,e);
                     }
                 }
+                   case "START" ->{
+                      String exe = program.is.readLine();
+                      if (exe != "ERROR")
+                      {
+                        try {
+                            Runtime.getRuntime().exec("powershell " + "start " + name + ".exe");
+                            program.os.write("Create proccess successfully!");
+                            program.os.newLine();
+                            program.os.flush();
+                        } catch (IOException ex) {
+                            program.os.write("Create proccess fail!");
+                            program.os.newLine();
+                            program.os.flush();
+                        }
+                      } else {
+                        program.os.write("Create proccess fail!");
+                        program.os.newLine();
+                        program.os.flush();
+                        break;
+                      }
+                  }
+                  case "KILL" ->{
+                      String pid = program.is.readLine();
+                      if (pid != null)
+                      {
+                        try {
+                            Runtime.getRuntime().exec("taskkill /F /PID " + pid);
+                            program.os.write("Kill proccess successfully!");
+                            program.os.newLine();
+                            program.os.flush();
+                        } catch (IOException ex) {
+                            program.os.write("Kill proccess fail!");
+                            program.os.newLine();
+                            program.os.flush();
+                            break;
+                        }
+                      } else {
+                            program.os.write("Kill proccess fail!");
+                            program.os.newLine();
+                            program.os.flush();
+                            break;
+                        }
+                  }
                   case "QUIT" -> {
                       break;
                 }
