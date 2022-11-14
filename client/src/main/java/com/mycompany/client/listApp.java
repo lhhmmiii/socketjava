@@ -51,7 +51,7 @@ public class listApp extends javax.swing.JFrame {
             }
         });
         
-        xoa.setText("XOA")
+        xoa.setText("XOA");
                 
         start.setText("START");
         start.addActionListener(new java.awt.event.ActionListener() {
