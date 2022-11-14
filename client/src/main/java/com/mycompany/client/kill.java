@@ -76,9 +76,9 @@ public class kill extends javax.swing.JFrame {
     private void killActionPerformed(java.awt.event.ActionEvent evt) {
         String s = "KILLID";
         try {
-            program.os.write(s);
-            program.os.newLine();
-            program.os.flush();
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
         } catch (IOException ex) {
             Logger.getLogger(kill.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -87,14 +87,14 @@ public class kill extends javax.swing.JFrame {
             flag = "ERROR";
         }
         try {
-            program.os.write(flag);
-            program.os.newLine();
-            program.os.flush();
+            program.out.write(flag);
+            program.out.newLine();
+            program.out.flush();
         } catch (IOException ex) {
             Logger.getLogger(kill.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            String read = program.is.readLine();
+            String read = program.in.readLine();
             JOptionPane.showMessageDialog(rootPane, read);
         } catch (IOException ex) {
             Logger.getLogger(kill.class.getName()).log(Level.SEVERE, null, ex);
