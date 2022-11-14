@@ -209,10 +209,10 @@ public class listApp extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Kill;
-    private javax.swing.JButton Start;
-    private javax.swing.JButton Xem;
-    private javax.swing.JButton Xoa;
+    private javax.swing.JButton kill;
+    private javax.swing.JButton start;
+    private javax.swing.JButton xem;
+    private javax.swing.JButton xoa;
     private javax.swing.JScrollPane scroll;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
