@@ -217,7 +217,7 @@ public class server extends javax.swing.JFrame {
                         try {
                             Runtime.getRuntime().exec("powershell " + "start " + name + ".exe");
                             program.out.write("Run program successfully!");
-                            program.ut.newLine();
+                            program.out.newLine();
                             program.out.flush();
                         } catch (IOException ex) {
                             program.out.write("Run program fail!");
