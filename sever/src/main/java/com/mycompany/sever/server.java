@@ -10,6 +10,8 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -214,11 +216,11 @@ public class server extends javax.swing.JFrame {
                     boolean test = true;
                     while(test)
                     {
-                        reveiveSignal();
+                        receiveSignal();
                         switch(program.signal)
                         {
                             case "STARTEXE" -> {
-                                String exe = program.is.readLine();
+                                String exe = program.in.readLine();
                                 if (exe != "ERROR")
                                 {
                                     try {
@@ -249,11 +251,11 @@ public class server extends javax.swing.JFrame {
                     boolean test = true;
                     while(test)
                     {
-                        reveiveSignal();
+                        receiveSignal();
                         switch(program.signal)
                         {
                             case "KILLID" -> {
-                                String pid = program.is.readLine();
+                                String pid = program.in.readLine();
                                 if (pid != "ERROR")
                                 {
                                     try {
@@ -338,11 +340,11 @@ public class server extends javax.swing.JFrame {
                        boolean test = true;
                     while(test)
                     {
-                        reveiveSignal();
+                        receiveSignal();
                         switch(program.signal)
                         {
                             case "STARTEXE" -> {
-                                String exe = program.is.readLine();
+                                String exe = program.in.readLine();
                                 if (exe != "ERROR")
                                 {
                                     try {
@@ -373,11 +375,11 @@ public class server extends javax.swing.JFrame {
                     boolean test = true;
                     while(test)
                     {
-                        reveiveSignal();
+                        receiveSignal();
                         switch(program.signal)
                         {
                             case "KILLID" -> {
-                                String pid = program.is.readLine();
+                                String pid = program.in.readLine();
                                 if (pid != "ERROR")
                                 {
                                     try {
