@@ -55,9 +55,9 @@ public class start extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(text, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
-                .addComponent(jButton1)
+                .addComponent(start)
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -91,7 +91,7 @@ public class start extends javax.swing.JFrame {
                 Logger.getLogger(start.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                String read = program.is.readLine();
+                String read = program.in.readLine();
                 JOptionPane.showMessageDialog(rootPane, read);
             } catch (IOException ex) {
                 Logger.getLogger(start.class.getName()).log(Level.SEVERE, null, ex);
