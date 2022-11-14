@@ -180,14 +180,14 @@ public class server extends javax.swing.JFrame {
                             soprocess++;
                         }
                         String soprocess1 = Integer.toString(soprocess);
-                        program.os = new BufferedWriter(new OutputStreamWriter(program.server1.getOutputStream()));
-                        program.os.write(soprocess1);
-                        program.os.newLine();
-                        program.os.flush();
+                        program.out = new BufferedWriter(new OutputStreamWriter(program.server1.getOutputStream()));
+                        program.out.write(soprocess1);
+                        program.out.newLine();
+                        program.out.flush();
                         Process p1 = Runtime.getRuntime().exec("powershell.exe Get-Process | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
                         BufferedReader input1 = new BufferedReader(new InputStreamReader(p1.getInputStream())); 
                         try (ObjectOutputStream out = new ObjectOutputStream(program.server1.getOutputStream())) {
-                            for(int i = 0; (i<soprocess) ;i++) {
+                            for(int i = 0; (i < soprocess) ; i++) {
                                 line = input1.readLine();
                                 line = line.trim();
                                 if (i>=3) 
@@ -216,18 +216,18 @@ public class server extends javax.swing.JFrame {
                       {
                         try {
                             Runtime.getRuntime().exec("powershell " + "start " + name + ".exe");
-                            program.os.write("Run program successfully!");
-                            program.os.newLine();
-                            program.os.flush();
+                            program.out.write("Run program successfully!");
+                            program.ut.newLine();
+                            program.out.flush();
                         } catch (IOException ex) {
-                            program.os.write("Run program fail!");
-                            program.os.newLine();
-                            program.os.flush();
+                            program.out.write("Run program fail!");
+                            program.out.newLine();
+                            program.out.flush();
                         }
                       } else {
-                        program.os.write("Run program fail!");
-                        program.os.newLine();
-                        program.os.flush();
+                        program.out.write("Run program fail!");
+                        program.out.newLine();
+                        program.out.flush();
                         break;
                       }
                   }
@@ -237,19 +237,19 @@ public class server extends javax.swing.JFrame {
                       {
                         try {
                             Runtime.getRuntime().exec("taskkill /F /PID " + pid);
-                            program.os.write("Kill program successfully!");
-                            program.os.newLine();
-                            program.os.flush();
+                            program.out.write("Kill program successfully!");
+                            program.out.newLine();
+                            program.out.flush();
                         } catch (IOException ex) {
-                            program.os.write("Kill program fail!");
-                            program.os.newLine();
-                            program.os.flush();
+                            program.out.write("Kill program fail!");
+                            program.out.newLine();
+                            program.out.flush();
                             break;
                         }
                       } else {
-                            program.os.write("Kill program fail!");
-                            program.os.newLine();
-                            program.os.flush();
+                            program.out.write("Kill program fail!");
+                            program.out.newLine();
+                            program.out.flush();
                             break;
                         }
                   }
@@ -276,20 +276,20 @@ public class server extends javax.swing.JFrame {
                             soprocess++;
                         }
                         String soprocess1 = Integer.toString(soprocess);
-                        program.os = new BufferedWriter(new OutputStreamWriter(program.server1.getOutputStream()));
-                        program.os.write(soprocess1);
-                        program.os.newLine();
-                        program.os.flush();
+                        program.out = new BufferedWriter(new OutputStreamWriter(program.server1.getOutputStream()));
+                        program.out.write(soprocess1);
+                        program.out.newLine();
+                        program.out.flush();
                         Process p1 = Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
                         BufferedReader input1 = new BufferedReader(new InputStreamReader(p1.getInputStream())); 
                         try (ObjectOutputStream out = new ObjectOutputStream(program.server1.getOutputStream())) {
-                            for(int i = 0; (i<soprocess) ;i++) {
+                            for(int i = 0; (i < soprocess) ;i++) {
                                 line = input1.readLine();
-                                if (i>=3)
+                                if (i >= 3)
                                 {
-                                    for (int u =0; u < line.length()-2;u++)
+                                    for (int u = 0; u < line.length() - 2; u++)
                                     {
-                                        if ((line.charAt(u)>64 && line.charAt(u)<=122)&&(line.charAt(u+2)>64 && line.charAt(u+2)<=122) && line.charAt(u+1)==' ')
+                                        if ((line.charAt(u) > 64 && line.charAt(u) <= 122)&&(line.charAt(u+2) > 64 && line.charAt(u+2) <= 122) && line.charAt(u+1)== ' ')
                                         {
                                             line = line.substring(0,u+1)+"_"+line.substring(u+2,line.length());
                                         }
@@ -313,18 +313,18 @@ public class server extends javax.swing.JFrame {
                       {
                         try {
                             Runtime.getRuntime().exec("powershell " + "start " + name + ".exe");
-                            program.os.write("Create proccess successfully!");
-                            program.os.newLine();
-                            program.os.flush();
+                            program.out.write("Create proccess successfully!");
+                            program.out.newLine();
+                            program.out.flush();
                         } catch (IOException ex) {
-                            program.os.write("Create proccess fail!");
-                            program.os.newLine();
-                            program.os.flush();
+                            program.out.write("Create proccess fail!");
+                            program.out.newLine();
+                            program.out.flush();
                         }
                       } else {
-                        program.os.write("Create proccess fail!");
-                        program.os.newLine();
-                        program.os.flush();
+                        program.out.write("Create proccess fail!");
+                        program.out.newLine();
+                        program.out.flush();
                         break;
                       }
                   }
@@ -334,19 +334,19 @@ public class server extends javax.swing.JFrame {
                       {
                         try {
                             Runtime.getRuntime().exec("taskkill /F /PID " + pid);
-                            program.os.write("Kill proccess successfully!");
-                            program.os.newLine();
-                            program.os.flush();
+                            program.out.write("Kill proccess successfully!");
+                            program.out.newLine();
+                            program.out.flush();
                         } catch (IOException ex) {
-                            program.os.write("Kill proccess fail!");
-                            program.os.newLine();
-                            program.os.flush();
+                            program.out.write("Kill proccess fail!");
+                            program.out.newLine();
+                            program.out.flush();
                             break;
                         }
                       } else {
-                            program.os.write("Kill proccess fail!");
-                            program.os.newLine();
-                            program.os.flush();
+                            program.out.write("Kill proccess fail!");
+                            program.out.newLine();
+                            program.out.flush();
                             break;
                         }
                   }
