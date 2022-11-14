@@ -99,9 +99,9 @@ public class listApp extends javax.swing.JFrame {
     private void xemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_XemActionPerformed
         try {
             String s = "XEM";
-            program.os.write(s);
-            program.os.newLine();
-            program.os.flush();
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
             String soprocess = program.is.readLine();
             int soprocess1 = 0;
             soprocess1 = Integer.parseInt(soprocess);
@@ -116,6 +116,40 @@ public class listApp extends javax.swing.JFrame {
             Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(process.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void killActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            if (program.client1 == null){
+                JOptionPane.showMessageDialog(null, "Chưa kết nối đến server");
+                return;
+            }
+            String s="KILL";
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
+            kill Kill =new kill();
+            Kill.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void startActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            if (program.client1 == null){
+                JOptionPane.showMessageDialog(null, "Chưa kết nối đến server");
+                return;
+            }
+            String s="START";
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
+            start Start =new start();
+            Start.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
