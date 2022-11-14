@@ -16,9 +16,6 @@ import javax.swing.JOptionPane;
  */
 public class kill extends javax.swing.JFrame {
 
-    /**
-     * Creates new form start1
-     */
     public kill() {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
