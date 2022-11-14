@@ -30,7 +30,6 @@ public class listProcess extends javax.swing.JFrame {
         xem = new javax.swing.JButton();
         xoa = new javax.swing.JButton();
         start = new javax.swing.JButton();
-        text = new javax.swing.JTextField();
         scroll = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
 
@@ -106,16 +105,16 @@ public class listProcess extends javax.swing.JFrame {
     private void XemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_XemActionPerformed
         try {
             String s = "XEM";
-            program.os.write(s);
-            program.os.newLine();
-            program.os.flush();
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
             String soprocess = program.is.readLine();
             int soprocess1 = 0;
             soprocess1 = Integer.parseInt(soprocess);
             ObjectInputStream ois = new ObjectInputStream(program.sclient.getInputStream());
             for (int i = 0; i < soprocess1-4; i++)
             {
-                String[] data = (String[]) oin.readObject();
+                String[] data = (String[]) ois.readObject();
                 DefaultTableModel defTable = (DefaultTableModel)table.getModel();
                 defTable.addRow(data);
             }
@@ -126,58 +125,7 @@ public class listProcess extends javax.swing.JFrame {
         }
     }
     
-    private void killActionPerformed(java.awt.event.ActionEvent evt) {
-        String s = "KILL";
-        try {
-            program.os.write(s);
-            program.os.newLine();
-            program.os.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(kill.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        String flag = text.getText();
-        if (text.getText() == null){
-            flag = "ERROR";
-        }
-        try {
-            program.os.write(flag);
-            program.os.newLine();
-            program.os.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(kill.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            String read = program.is.readLine();
-            JOptionPane.showMessageDialog(rootPane, read);
-        } catch (IOException ex) {
-            Logger.getLogger(kill.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-     private void startActionPerformed(java.awt.event.ActionEvent evt) {
-            String s = "START";
-            try {
-                program.os.write(s);
-                program.os.newLine();
-                program.os.flush();
-            } catch (IOException ex) {
-                Logger.getLogger(start.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            String flag = text.getText();
-            try {
-                program.os.write(flag);
-                program.os.newLine();
-                program.os.flush();
-            } catch (IOException ex) {
-                Logger.getLogger(start.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                String read = program.is.readLine();
-                JOptionPane.showMessageDialog(rootPane, read);
-            } catch (IOException ex) {
-                Logger.getLogger(start.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+   
 
     /**
      * @param args the command line arguments
