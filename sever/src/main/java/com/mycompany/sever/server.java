@@ -259,7 +259,9 @@ public class server extends javax.swing.JFrame {
                                 if (exe != "ERROR")
                                 {
                                     try {
-                                        Runtime.getRuntime().exec("powershell " + "start " + exe + ".exe");
+                                        ProcessBuilder pBuild = new ProcessBuilder();
+                                        pBuild.command(exe + ".exe");
+                                        pBuild.start();
                                         program.out.write("Run program successfully!");
                                         program.out.newLine();
                                         program.out.flush();
@@ -294,7 +296,10 @@ public class server extends javax.swing.JFrame {
                                 if (pid != "ERROR")
                                 {
                                     try {
-                                        Runtime.getRuntime().exec("taskkill /F /T /PID" + pid);
+                                        String[] cmd = {"taskkill", "/F", "/T", "/PID", pid};
+                                        ProcessBuilder pBuild = new ProcessBuilder();
+                                        pBuild.command(cmd);
+                                        pBuild.start();
                                         program.out.write("Kill program successfully!");
                                         program.out.newLine();
                                         program.out.flush();
@@ -382,7 +387,9 @@ public class server extends javax.swing.JFrame {
                                 if (exe != "ERROR")
                                 {
                                     try {
-                                        Runtime.getRuntime().exec("powershell " + "start " + exe + ".exe");
+                                        ProcessBuilder pBuild = new ProcessBuilder();
+                                        pBuild.command(exe + ".exe");
+                                        pBuild.start();
                                         program.out.write("Run program successfully!");
                                         program.out.newLine();
                                         program.out.flush();
@@ -417,7 +424,10 @@ public class server extends javax.swing.JFrame {
                                 if (pid != "ERROR")
                                 {
                                     try {
-                                        Runtime.getRuntime().exec("taskkill /F /PID " + pid);
+                                        String[] cmd = {"taskkill", "/F", "/T", "/PID", pid};
+                                        ProcessBuilder pBuild = new ProcessBuilder();
+                                        pBuild.command(cmd);
+                                        pBuild.start();
                                         program.out.write("Kill program successfully!");
                                         program.out.newLine();
                                         program.out.flush();
