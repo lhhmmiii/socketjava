@@ -78,7 +78,7 @@ public class listApp extends javax.swing.JFrame {
                 .addGap(66, 66, 66)
                 .addComponent(xoa)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                .addComponent(start)
+                .addComponent(start))
                 .addGap(31, 31, 31))
         );
         layout.setVerticalGroup(
@@ -102,10 +102,10 @@ public class listApp extends javax.swing.JFrame {
             program.out.write(s);
             program.out.newLine();
             program.out.flush();
-            String soprocess = program.is.readLine();
+            String soprocess = program.in.readLine();
             int soprocess1 = 0;
             soprocess1 = Integer.parseInt(soprocess);
-            ObjectInputStream ois = new ObjectInputStream(program.sclient.getInputStream());
+            ObjectInputStream ois = new ObjectInputStream(program.client1.getInputStream());
             for (int i = 0; i < soprocess1-4; i++)
             {
                 String[] data = (String[]) ois.readObject();
