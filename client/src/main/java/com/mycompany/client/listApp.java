@@ -37,7 +37,7 @@ public class listApp extends javax.swing.JFrame {
 
         killapp = new javax.swing.JButton();
         xemapp = new javax.swing.JButton();
-        closeapp = new javax.swing.JButton();
+        xoaapp = new javax.swing.JButton();
         startapp = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -59,8 +59,8 @@ public class listApp extends javax.swing.JFrame {
             }
         });
 
-        closeapp.setText("Xóa");
-        closeapp.addActionListener(new java.awt.event.ActionListener() {
+        xoaapp.setText("Xóa");
+        xoaapp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 closeappActionPerformed(evt);
             }
@@ -174,7 +174,7 @@ public class listApp extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_xemappActionPerformed
 
-    private void closeappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeappActionPerformed
+    private void xoaappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeappActionPerformed
         if(program.client1 == null)
         {
             JOptionPane.showMessageDialog(rootPane, "Chưa kết nối tới server");
