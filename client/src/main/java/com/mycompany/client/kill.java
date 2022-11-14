@@ -45,7 +45,7 @@ public class kill extends javax.swing.JFrame {
         kill.setText("Kill");
         kill.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                kill.ActionPerformed(evt);
+                killActionPerformed(evt);
             }
         });
 
