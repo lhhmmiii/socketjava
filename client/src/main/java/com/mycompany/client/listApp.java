@@ -131,11 +131,11 @@ public class listApp extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void killappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_killappActionPerformed
-        try {
-            if (program.client1 == null){
+        if (program.client1 == null){
                 JOptionPane.showMessageDialog(null, "Chưa kết nối đến server");
                 return;
-            }
+        }
+        try {
             String s="KILL";
             program.out.write(s);
             program.out.newLine();
@@ -148,6 +148,10 @@ public class listApp extends javax.swing.JFrame {
     }//GEN-LAST:event_killappActionPerformed
 
     private void xemappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xemappActionPerformed
+        if (program.client1 == null){
+                JOptionPane.showMessageDialog(null, "Chưa kết nối đến server");
+                return;
+        }
         try {
             String s = "XEM";
             program.out.write(s);
@@ -171,22 +175,24 @@ public class listApp extends javax.swing.JFrame {
     }//GEN-LAST:event_xemappActionPerformed
 
     private void closeappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeappActionPerformed
-        try {
-            String s = "QUIT";
-            program.out.write(s);
-            program.out.newLine();
-            program.out.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
+        if(program.client1 == null)
+        {
+            JOptionPane.showMessageDialog(rootPane, "Chưa kết nối tới server");
+            return;
+        }
+        DefaultTableModel defTable = (DefaultTableModel)jTable1.getModel();
+        while(defTable.getRowCount() > 0)
+        {
+            defTable.removeRow(0);
         }
     }//GEN-LAST:event_closeappActionPerformed
 
     private void startappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startappActionPerformed
-        try {
-            if (program.client1 == null){
+        if (program.client1 == null){
                 JOptionPane.showMessageDialog(null, "Chưa kết nối đến server");
                 return;
-            }
+        }
+        try {
             String s="START";
             program.out.write(s);
             program.out.newLine();
