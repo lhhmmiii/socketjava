@@ -4,6 +4,14 @@
  */
 package com.mycompany.client;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author HUNG
@@ -27,44 +35,63 @@ public class listApp extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        kill = new javax.swing.JButton();
-        xem = new javax.swing.JButton();
-        xoa = new javax.swing.JButton();
-        start = new javax.swing.JButton();
-        scroll = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
+        killapp = new javax.swing.JButton();
+        xemapp = new javax.swing.JButton();
+        closeapp = new javax.swing.JButton();
+        startapp = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Application");
-        
-        kill.setText("KILL");
-        kill.addActionListener(new java.awt.event.ActionListener() {
+        setTitle("List Application");
+
+        killapp.setText("Kill");
+        killapp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                killActionPerformed(evt);
+                killappActionPerformed(evt);
             }
         });
-        
-        xem.setText("XEM");
-        xem.addActionListener(new java.awt.event.ActionListener() {
+
+        xemapp.setText("Xem");
+        xemapp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                xemActionPerformed(evt);
+                xemappActionPerformed(evt);
             }
         });
-        
-        xoa.setText("XOA");
-                
-        start.setText("START");
-        start.addActionListener(new java.awt.event.ActionListener() {
+
+        closeapp.setText("Xóa");
+        closeapp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startActionPerformed(evt);
+                closeappActionPerformed(evt);
             }
         });
-        
-        table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {},
-            new String [] {"ID", "Name App", "MainWindowTitle"}
+
+        startapp.setText("Start");
+        startapp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startappActionPerformed(evt);
+            }
+        });
+
+        jScrollPane1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+                jScrollPane1AncestorMoved(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID Application", "Name Application", "Count Thread"
+            }
         ));
-        scroll.setViewportView(table);
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,54 +99,38 @@ public class listApp extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addComponent(kill)
-                .addGap(64, 64, 64)
-                .addComponent(xem)
-                .addGap(66, 66, 66)
-                .addComponent(xoa)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                .addComponent(start))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(killapp)
+                        .addGap(76, 76, 76)
+                        .addComponent(xemapp)
+                        .addGap(73, 73, 73)
+                        .addComponent(closeapp)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                        .addComponent(startapp)))
                 .addGap(31, 31, 31))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(xoa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
-                    .addComponent(xem, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(kill, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(start, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(262, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(killapp, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(xemapp, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(closeapp, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(startapp, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    private void xemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_XemActionPerformed
-        try {
-            String s = "XEM";
-            program.out.write(s);
-            program.out.newLine();
-            program.out.flush();
-            String soprocess = program.in.readLine();
-            int soprocess1 = 0;
-            soprocess1 = Integer.parseInt(soprocess);
-            ObjectInputStream ois = new ObjectInputStream(program.client1.getInputStream());
-            for (int i = 0; i < soprocess1-4; i++)
-            {
-                String[] data = (String[]) ois.readObject();
-                DefaultTableModel defTable = (DefaultTableModel)table.getModel();
-                defTable.addRow(data);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(process.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private void killActionPerformed(java.awt.event.ActionEvent evt) {
+
+    private void killappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_killappActionPerformed
         try {
             if (program.client1 == null){
                 JOptionPane.showMessageDialog(null, "Chưa kết nối đến server");
@@ -134,9 +145,43 @@ public class listApp extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
-    private void startActionPerformed(java.awt.event.ActionEvent evt) {
+    }//GEN-LAST:event_killappActionPerformed
+
+    private void xemappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xemappActionPerformed
+        try {
+            String s = "XEM";
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
+            String soprocess = program.in.readLine();
+            int soprocess1 = 0;
+            soprocess1 = Integer.parseInt(soprocess);
+            ObjectInputStream oin = new ObjectInputStream(program.client1.getInputStream());
+            for (int i = 0; i < soprocess1-4; i++)
+            {
+                String[] data = (String[]) oin.readObject();
+                DefaultTableModel defTable = (DefaultTableModel)jTable1.getModel();
+                defTable.addRow(data);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(listApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_xemappActionPerformed
+
+    private void closeappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeappActionPerformed
+        try {
+            String s = "QUIT";
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_closeappActionPerformed
+
+    private void startappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startappActionPerformed
         try {
             if (program.client1 == null){
                 JOptionPane.showMessageDialog(null, "Chưa kết nối đến server");
@@ -151,8 +196,21 @@ public class listApp extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }//GEN-LAST:event_startappActionPerformed
 
+    private void jScrollPane1AncestorMoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jScrollPane1AncestorMoved
+        
+    }//GEN-LAST:event_jScrollPane1AncestorMoved
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {
+        try {
+            String s = "QUIT";
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -189,11 +247,11 @@ public class listApp extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton kill;
-    private javax.swing.JButton start;
-    private javax.swing.JButton xem;
-    private javax.swing.JButton xoa;
-    private javax.swing.JScrollPane scroll;
-    private javax.swing.JTable table;
+    private javax.swing.JButton closeapp;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JButton killapp;
+    private javax.swing.JButton startapp;
+    private javax.swing.JButton xemapp;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,17 +4,18 @@
  */
 package com.mycompany.sever;
 
+import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.NativeHookException;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.nio.ByteBuffer;
@@ -36,6 +37,7 @@ public class server extends javax.swing.JFrame {
      */
     public server() {
         initComponents();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     public void receiveSignal(){
          try
@@ -47,47 +49,7 @@ public class server extends javax.swing.JFrame {
                 program.signal = "QUIT";
             }
     }
-     public void shutdown()
-    {
-        try{
-            Runtime runtime = Runtime.getRuntime();
-            Process proc = runtime.exec("shutdown -s -t 5");
-            System.exit(0);
-        } catch (IOException ex)
-        {
-            JOptionPane.showMessageDialog(null,ex);
-        }
-    }
-     public void restart(){
-         try{
-            Runtime runtime = Runtime.getRuntime();
-            Process proc1 = runtime.exec("shutdown -r -t 5");
-            System.exit(0);
-        } catch (IOException ex)
-        {
-            JOptionPane.showMessageDialog(null,ex);
-        }
-     }
-     public void logoff(){
-         try{
-            Runtime runtime = Runtime.getRuntime();
-            Process proc2 = runtime.exec("shutdown -l 5");
-            System.exit(0);
-        } catch (IOException ex)
-        {
-            JOptionPane.showMessageDialog(null,ex);
-        }
-     }
-        public void hibernate(){
-         try{
-            Runtime runtime = Runtime.getRuntime();
-            Process proc3 = runtime.exec("shutdown -h  5");
-            System.exit(0);
-        } catch (IOException ex)
-        {
-            JOptionPane.showMessageDialog(null,ex);
-        }
-     }
+     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -124,7 +86,47 @@ public class server extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public void shutdown()
+    {
+        try{
+            Runtime runtime = Runtime.getRuntime();
+            Process proc = runtime.exec("shutdown -s -t 5");
+            System.exit(0);
+        } catch (IOException ex)
+        {
+            JOptionPane.showMessageDialog(null,ex);
+        }
+    }
+     public void restart(){
+         try{
+            Runtime runtime = Runtime.getRuntime();
+            Process proc1 = runtime.exec("shutdown -r -t 5");
+            System.exit(0);
+        } catch (IOException ex)
+        {
+            JOptionPane.showMessageDialog(null,ex);
+        }
+     }
+     public void logoff(){
+         try{
+            Runtime runtime = Runtime.getRuntime();
+            Process proc2 = runtime.exec("shutdown -l 5");
+            System.exit(0);
+        } catch (IOException ex)
+        {
+            JOptionPane.showMessageDialog(null,ex);
+        }
+    }
+        public void hibernate(){
+         try{
+            Runtime runtime = Runtime.getRuntime();
+            Process proc3 = runtime.exec("shutdown -h  5");
+            System.exit(0);
+        } catch (IOException ex)
+        {
+            JOptionPane.showMessageDialog(null,ex);
+        }
+    }
     public void takepic(){
         while(true){
             receiveSignal();
@@ -135,6 +137,7 @@ public class server extends javax.swing.JFrame {
                     frame.setSize(500, 500);
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     Thread t = new Thread(){
+                    @Override
                     public void run(){
                         try{
                             DataInputStream in = new DataInputStream(program.server1.getInputStream());
@@ -162,10 +165,165 @@ public class server extends javax.swing.JFrame {
                 {
                     break;
                 }
+            }
         }
     }
-}
-    public void application() throws IOException
+
+    /**
+     *
+     * @param k
+     */
+    public void hookKey(keylogger k){
+        try {
+        GlobalScreen.registerNativeHook();
+        } catch (NativeHookException ex) {
+        System.err.println("There was a problem registering the native hook.");
+        System.err.println(ex.getMessage());
+        System.exit(1);
+        }
+        GlobalScreen.addNativeKeyListener(k);
+    }
+    
+    public void unhook(){
+        
+    }
+    public void printkey(){
+        
+    }
+     public void keylog()
+        {
+            keylogger k=new keylogger();
+            boolean test = true;
+            while (test)
+            {
+                receiveSignal();
+                switch (program.signal)
+                {
+                   case "HOOK"->hookKey(k); 
+                   case "UNHOOK"->unhook();
+                   case "PRINT"->printkey();
+                }
+            }
+
+    }
+     public void application() throws IOException
+    {
+       while (true)
+        {
+            receiveSignal();
+            switch(program.signal)
+            {
+                case "XEM" -> {
+                        String line = null;
+                        Process p = Runtime.getRuntime().exec("powershell.exe Get-Process | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
+                        BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));                  
+                        int soprocess = 0;
+                        while(input.readLine() != null){
+                            soprocess++;
+                        String soprocess1 = Integer.toString(soprocess);
+                        program.out = new BufferedWriter(new OutputStreamWriter(program.server1.getOutputStream()));
+                        program.out.write(soprocess1);
+                        program.out.newLine();
+                        program.out.flush();
+                        Process p1 = Runtime.getRuntime().exec("powershell.exe Get-Process | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
+                        BufferedReader input1 = new BufferedReader(new InputStreamReader(p1.getInputStream())); 
+                        try (ObjectOutputStream out = new ObjectOutputStream(program.server1.getOutputStream())) {
+                            for(int i = 0; (i < soprocess) ; i++) {
+                                line = input1.readLine();
+                                line = line.trim();
+                                if (i>=3) 
+                                {
+                                    if (i == soprocess-1)
+                                    {
+                                        break;
+                                    }
+                                    line = line.replaceAll("\\s{1,100}", " ");
+                                    String[] splitline = line.split(" ",3);
+                                    String data[] = {splitline[0],splitline[1],splitline[2]};
+                                    out.writeObject(data);
+                                    out.flush();
+                                }
+                            }
+                        }
+                    }
+                }
+                 case "START" -> {
+                    boolean test = true;
+                    while(test)
+                    {
+                        receiveSignal();
+                        switch(program.signal)
+                        {
+                            case "STARTEXE" -> {
+                                String exe = program.in.readLine();
+                                if (exe != "ERROR")
+                                {
+                                    try {
+                                        Runtime.getRuntime().exec("powershell " + "start " + exe + ".exe");
+                                        program.out.write("Run program successfully!");
+                                        program.out.newLine();
+                                        program.out.flush();
+                                    } catch (IOException ex) {
+                                        program.out.write("Run program fail!");
+                                        program.out.newLine();
+                                        program.out.flush();
+                                    }
+                                } else {
+                                    program.out.write("Run program fail!");
+                                    program.out.newLine();
+                                    program.out.flush();
+                                    break;
+                                }
+                            }
+                            case "QUIT" -> {
+                                test = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                  case "KILL" ->{
+                    boolean test = true;
+                    while(test)
+                    {
+                        receiveSignal();
+                        switch(program.signal)
+                        {
+                            case "KILLID" -> {
+                                String pid = program.in.readLine();
+                                if (pid != "ERROR")
+                                {
+                                    try {
+                                        Runtime.getRuntime().exec("taskkill /F /T /PID" + pid);
+                                        program.out.write("Kill program successfully!");
+                                        program.out.newLine();
+                                        program.out.flush();
+                                    } catch (IOException ex) {
+                                        program.out.write("Kill program fail!");
+                                        program.out.newLine();
+                                        program.out.flush();
+                                    }
+                                } else {
+                                    program.out.write("Kill program fail!");
+                                    program.out.newLine();
+                                    program.out.flush();
+                                    break;
+                                }
+                            }
+                            case "QUIT" -> {
+                                test = false;
+                                break;
+                            }
+                        }
+                    }
+                  }
+                  case "QUIT" -> {
+                      break;
+                }
+            }
+        }
+    }
+     public void process() throws IOException
     {
         while (true)
         {
@@ -288,131 +446,6 @@ public class server extends javax.swing.JFrame {
             }
         }
     }
-    public void process()
-    {
-        while (true)
-        {
-            receiveSignal();
-            switch(program.signal)
-            {
-                case "XEM" ->                 {
-                    try {
-                        String line = null;
-                        Process p = Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
-                        BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));                  
-                        int soprocess = 0;
-                        while(input.readLine() != null){
-                            soprocess++;
-                        }
-                        String soprocess1 = Integer.toString(soprocess);
-                        program.out = new BufferedWriter(new OutputStreamWriter(program.server1.getOutputStream()));
-                        program.out.write(soprocess1);
-                        program.out.newLine();
-                        program.out.flush();
-                        Process p1 = Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
-                        BufferedReader input1 = new BufferedReader(new InputStreamReader(p1.getInputStream())); 
-                        try (ObjectOutputStream out = new ObjectOutputStream(program.server1.getOutputStream())) {
-                            for(int i = 0; (i < soprocess) ;i++) {
-                                line = input1.readLine();
-                                if (i >= 3)
-                                {
-                                    for (int u = 0; u < line.length() - 2; u++)
-                                    {
-                                        if ((line.charAt(u) > 64 && line.charAt(u) <= 122)&&(line.charAt(u+2) > 64 && line.charAt(u+2) <= 122) && line.charAt(u+1)== ' ')
-                                        {
-                                            line = line.substring(0,u+1)+"_"+line.substring(u+2,line.length());
-                                        }
-                                    }
-                                    String[] splitline = line.trim().split("\\s{1,100}");
-                                    String data[] = {splitline[0],splitline[1],splitline[2],splitline[3],splitline[4]+splitline[5]};
-                                    out.writeObject(data);
-                                    out.flush();
-                                }
-                            }
-                        }
-                    }
-                    catch(IOException e)
-                    {
-                      JOptionPane.showMessageDialog(null,e);
-                    }
-                }
-                   case "START" ->{
-                       boolean test = true;
-                    while(test)
-                    {
-                        receiveSignal();
-                        switch(program.signal)
-                        {
-                            case "STARTEXE" -> {
-                                String exe = program.in.readLine();
-                                if (exe != "ERROR")
-                                {
-                                    try {
-                                        Runtime.getRuntime().exec("powershell " + "start " + exe + ".exe");
-                                        program.out.write("Create proccess successfully!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    } catch (IOException ex) {
-                                        program.out.write("Create Proccess fail!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    }
-                                } else {
-                                    program.out.write("Create program fail!");
-                                    program.out.newLine();
-                                    program.out.flush();
-                                    break;
-                                }
-                            }
-                            case "QUIT" -> {
-                                test = false;
-                                break;
-                            }
-                        }
-                    }
-                  }
-                  case "KILL" ->{
-                    boolean test = true;
-                    while(test)
-                    {
-                        receiveSignal();
-                        switch(program.signal)
-                        {
-                            case "KILLID" -> {
-                                String pid = program.in.readLine();
-                                if (pid != "ERROR")
-                                {
-                                    try {
-                                        Runtime.getRuntime().exec("taskkill /F /PID " + pid);
-                                        program.out.write("Kill proccess successfully!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    } catch (IOException ex) {
-                                        program.out.write("Kill proccess fail!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    }
-                                } else {
-                                    program.out.write("Kill proccess fail!");
-                                    program.out.newLine();
-                                    program.out.flush();
-                                    break;
-                                }
-                            }
-                            case "QUIT" -> {
-                                test = false;
-                                break;
-                            }
-                        }
-                    }
-                  }
-                  case "QUIT" -> {
-                      break;
-                }
-            }
-        }
-    }
-}
     private void openserverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openserverActionPerformed
         JOptionPane.showMessageDialog(null, "Mở server thành công.");
         try {
@@ -431,8 +464,9 @@ public class server extends javax.swing.JFrame {
                     case "LOGOFF"->logoff();
                     case "HIBERNATE"->hibernate();
                     case "TAKEPIC" -> takepic();
-                    case "PROCESS": process();
-                    case "APPLICATION": application();
+                    case "KEYLOG"->keylog();
+                    case "PROCESS"-> process();
+                    case "APPLICATION"-> application();
                     case "QUIT"->{
                         program.server1.close();
                         server.close();

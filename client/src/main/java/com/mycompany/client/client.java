@@ -10,12 +10,12 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 /**
  *
@@ -28,6 +28,7 @@ public class client extends javax.swing.JFrame {
      */
     public client() {
         initComponents();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -165,13 +166,6 @@ public class client extends javax.swing.JFrame {
             test = false;
             program.client1 = null;
         }
-//        try {
-//            program.client1 = new Socket(ip.getText(),2003);
-//        } catch (IOException ex) {
-//            JOptionPane.showMessageDialog(null, "Lỗi kết nối đến server");
-//            test = false;
-//            program.client1=null;
-//        }
         if (test){
             try {
                 String st = "Kết nối server thành công";
@@ -249,6 +243,8 @@ public class client extends javax.swing.JFrame {
             program.out.write(s);
             program.out.newLine();
             program.out.flush();
+            keylog klog=new keylog();
+            klog.setVisible(true);
         } catch (IOException ex) {
             Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
         }

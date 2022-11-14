@@ -13,16 +13,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 public class pic extends javax.swing.JFrame {
     public pic() {
         initComponents();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -143,7 +144,7 @@ public class pic extends javax.swing.JFrame {
             System.out.println(ex);
         }
     }//GEN-LAST:event_saveActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */
