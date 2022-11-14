@@ -43,6 +43,7 @@ public class listProcess extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("List Process");
 
         killprocess.setText("Kill");
         killprocess.addActionListener(new java.awt.event.ActionListener() {
@@ -59,6 +60,11 @@ public class listProcess extends javax.swing.JFrame {
         });
 
         xoaprocess.setText("Xóa");
+        xoaprocess.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                xoaprocessActionPerformed(evt);
+            }
+        });
 
         startprocess.setText("Start");
         startprocess.addActionListener(new java.awt.event.ActionListener() {
@@ -134,6 +140,19 @@ public class listProcess extends javax.swing.JFrame {
             Logger.getLogger(listProcess.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_xemprocessActionPerformed
+    
+    private void xoaprocessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaprocessActionPerformed
+        if(program.client1 == null)
+        {
+            JOptionPane.showMessageDialog(rootPane, "Chưa kết nối tới server");
+            return;
+        }
+        DefaultTableModel defTable = (DefaultTableModel)jTable1.getModel();
+        while(defTable.getRowCount() > 0)
+        {
+            defTable.removeRow(0);
+        }
+    }//GEN-LAST:event_xoaprocessActionPerformed
 
     private void killprocessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_killprocessActionPerformed
         try {
@@ -168,6 +187,17 @@ public class listProcess extends javax.swing.JFrame {
             Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_startprocessActionPerformed
+    
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {
+        try {
+            String s = "QUIT";
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * @param args the command line arguments
