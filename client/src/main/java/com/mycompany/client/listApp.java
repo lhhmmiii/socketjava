@@ -105,10 +105,10 @@ public class listApp extends javax.swing.JFrame {
             String soprocess = program.is.readLine();
             int soprocess1 = 0;
             soprocess1 = Integer.parseInt(soprocess);
-            ObjectInputStream oin = new ObjectInputStream(program.sclient.getInputStream());
+            ObjectInputStream ois = new ObjectInputStream(program.sclient.getInputStream());
             for (int i = 0; i < soprocess1-4; i++)
             {
-                String[] data = (String[]) oin.readObject();
+                String[] data = (String[]) ois.readObject();
                 DefaultTableModel defTable = (DefaultTableModel)table.getModel();
                 defTable.addRow(data);
             }
