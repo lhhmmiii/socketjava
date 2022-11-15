@@ -62,7 +62,7 @@ public class listApp extends javax.swing.JFrame {
         xoaapp.setText("Xóa");
         xoaapp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                closeappActionPerformed(evt);
+                xoaappActionPerformed(evt);
             }
         });
 
@@ -106,7 +106,7 @@ public class listApp extends javax.swing.JFrame {
                         .addGap(76, 76, 76)
                         .addComponent(xemapp)
                         .addGap(73, 73, 73)
-                        .addComponent(closeapp)
+                        .addComponent(xoaapp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                         .addComponent(startapp)))
                 .addGap(31, 31, 31))
@@ -253,7 +253,7 @@ public class listApp extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton closeapp;
+    private javax.swing.JButton xoaapp;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton killapp;
