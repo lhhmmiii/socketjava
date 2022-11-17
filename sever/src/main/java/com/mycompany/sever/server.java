@@ -252,34 +252,37 @@ public class server extends javax.swing.JFrame {
         }
 
     }
-     public void application() throws IOException
+    public void application() throws IOException
     {
        while (true)
         {
             receiveSignal();
             switch(program.signal)
             {
-                case "XEM" -> {
+                case "XEM":
+                {
+                    try {
                         String line = null;
-                        Process p = Runtime.getRuntime().exec("powershell.exe Get-Process | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
-                        BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));                  
+                        Process proc = Runtime.getRuntime().exec("powershell.exe Get-Process | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
+                        BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));                  
                         int soprocess = 0;
                         while(input.readLine() != null){
                             soprocess++;
+                        }
                         String soprocess1 = Integer.toString(soprocess);
-                        program.out = new BufferedWriter(new OutputStreamWriter(program.server1.getOutputStream()));
                         program.out.write(soprocess1);
                         program.out.newLine();
                         program.out.flush();
-                        Process p1 = Runtime.getRuntime().exec("powershell.exe Get-Process | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
-                        BufferedReader input1 = new BufferedReader(new InputStreamReader(p1.getInputStream())); 
-                        try (ObjectOutputStream out = new ObjectOutputStream(program.server1.getOutputStream())) {
-                            for(int i = 0; (i < soprocess) ; i++) {
-                                line = input1.readLine();
+                        Process proc1 = Runtime.getRuntime().exec("powershell.exe Get-Process | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
+                        input = new BufferedReader(new InputStreamReader(proc1.getInputStream()));
+                        ObjectOutputStream out = new ObjectOutputStream(program.server1.getOutputStream());
+                        try {
+                            for(int i = 0; i < soprocess ;i++) {
+                                line = input.readLine();
                                 line = line.trim();
-                                if (i>=3) 
+                                if (i >= 3) 
                                 {
-                                    if (i == soprocess-1)
+                                    if (i == soprocess - 2)
                                     {
                                         break;
                                     }
@@ -291,9 +294,18 @@ public class server extends javax.swing.JFrame {
                                 }
                             }
                         }
+                        catch(IOException e)
+                        {
+                        JOptionPane.showMessageDialog(null,e);
+                        }
+                    }catch(IOException e)
+                    {
+                      JOptionPane.showMessageDialog(null,e);
                     }
+                    break;
                 }
-                 case "START" -> {
+                 case "START":
+                 {
                     boolean test = true;
                     while(test)
                     {
@@ -305,9 +317,9 @@ public class server extends javax.swing.JFrame {
                                 if (exe != "ERROR")
                                 {
                                     try {
-                                        ProcessBuilder pBuild = new ProcessBuilder();
-                                        pBuild.command(exe + ".exe");
-                                        pBuild.start();
+                                        ProcessBuilder procBuild = new ProcessBuilder();
+                                        procBuild.command(exe + ".exe");
+                                        procBuild.start();
                                         program.out.write("Run program successfully!");
                                         program.out.newLine();
                                         program.out.flush();
@@ -329,8 +341,10 @@ public class server extends javax.swing.JFrame {
                             }
                         }
                     }
+                    break;
                 }
-                  case "KILL" ->{
+                  case "KILL":
+                  {
                     boolean test = true;
                     while(test)
                     {
@@ -343,9 +357,9 @@ public class server extends javax.swing.JFrame {
                                 {
                                     try {
                                         String[] cmd = {"taskkill", "/F", "/T", "/PID", pid};
-                                        ProcessBuilder pBuild = new ProcessBuilder();
-                                        pBuild.command(cmd);
-                                        pBuild.start();
+                                        ProcessBuilder procBuild = new ProcessBuilder();
+                                        procBuild.command(cmd);
+                                        procBuild.start();
                                         program.out.write("Kill program successfully!");
                                         program.out.newLine();
                                         program.out.flush();
@@ -367,8 +381,10 @@ public class server extends javax.swing.JFrame {
                             }
                         }
                     }
+                    break;
                   }
-                  case "QUIT" -> {
+                  case "QUIT":
+                  {
                       break;
                 }
             }
@@ -381,11 +397,12 @@ public class server extends javax.swing.JFrame {
             receiveSignal();
             switch(program.signal)
             {
-                case "XEM" ->                 {
+                case "XEM":
+                {
                     try {
                         String line = null;
-                        Process p = Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
-                        BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));                  
+                        Process proc = Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
+                        BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));                  
                         int soprocess = 0;
                         while(input.readLine() != null){
                             soprocess++;
@@ -394,18 +411,18 @@ public class server extends javax.swing.JFrame {
                         program.out.write(soprocess1);
                         program.out.newLine();
                         program.out.flush();
-                        Process p1 = Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
-                        input = new BufferedReader(new InputStreamReader(p1.getInputStream()));
+                        Process proc1 = Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
+                        input = new BufferedReader(new InputStreamReader(proc1.getInputStream()));
                         ObjectOutputStream out = new ObjectOutputStream(program.server1.getOutputStream());
                         try {
-                            for(int i = 0; (i<soprocess) ;i++) {
+                            for(int i = 0; i < soprocess ;i++) {
                                 line = input.readLine();
                                 line = line.trim();
-                                if (i>=3)
+                                if (i >= 3)
                                 {
                                     for (int u =0; u < line.length()-2;u++)
                                     {
-                                        if ((line.charAt(u)>64 && line.charAt(u)<=122)&&(line.charAt(u+2)>64 && line.charAt(u+2)<=122) && line.charAt(u+1)==' ')
+                                        if ((line.charAt(u) > 64 && line.charAt(u) <= 122) && (line.charAt(u+2) > 64 && line.charAt(u+2) <= 122) && line.charAt(u+1) == ' ')
                                         {
                                             line = line.substring(0,u+1)+"_"+line.substring(u+2,line.length());
                                         }
@@ -426,7 +443,8 @@ public class server extends javax.swing.JFrame {
                       JOptionPane.showMessageDialog(null,e);
                     }
                 }
-                 case "START" -> {
+                 case "START":
+                 {
                     boolean test = true;
                     while(test)
                     {
@@ -463,7 +481,8 @@ public class server extends javax.swing.JFrame {
                         }
                     }
                 }
-                  case "KILL" ->{
+                  case "KILL":
+                  {
                     boolean test = true;
                     while(test)
                     {
@@ -501,7 +520,8 @@ public class server extends javax.swing.JFrame {
                         }
                     }
                   }
-                  case "QUIT" -> {
+                  case "QUIT":
+                  {
                       break;
                 }
             }
