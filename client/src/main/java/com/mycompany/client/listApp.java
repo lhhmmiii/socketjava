@@ -159,9 +159,14 @@ public class listApp extends javax.swing.JFrame {
             program.out.flush();
             String soprocess = program.in.readLine();
             int soprocess1 = 0;
+            DefaultTableModel table = (DefaultTableModel)jTable1.getModel();
+            while(table.getRowCount() > 0)
+            {
+                table.removeRow(0);
+            }
             soprocess1 = Integer.parseInt(soprocess);
             ObjectInputStream oin = new ObjectInputStream(program.client1.getInputStream());
-            for (int i = 0; i < soprocess1-4; i++)
+            for (int i = 0; i < soprocess1 - 5; i++)
             {
                 String[] data = (String[]) oin.readObject();
                 DefaultTableModel defTable = (DefaultTableModel)jTable1.getModel();
