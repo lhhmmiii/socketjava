@@ -411,7 +411,7 @@ public class server extends javax.swing.JFrame {
                         program.out.write(soprocess1);
                         program.out.newLine();
                         program.out.flush();
-                        Process proc1 = Runtime.getRuntime().exec(System.getenv("tasklist");
+                        Process proc1 = Runtime.getRuntime().exec("tasklist");
                         input = new BufferedReader(new InputStreamReader(proc1.getInputStream()));
                         ObjectOutputStream output = new ObjectOutputStream(program.server1.getOutputStream());
                         try {
