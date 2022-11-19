@@ -289,8 +289,8 @@ public class server extends javax.swing.JFrame {
                                     row = row.replaceAll("\\s{1,100}", " ");
                                     String[] splitRow = row.split(" ",3);
                                     String info[] = {split[0],split[1],split[2]};
-                                    out.writeObject(info);
-                                    out.flush();
+                                    output.writeObject(info);
+                                    output.flush();
                                 }
                             }
                         }
@@ -429,8 +429,8 @@ public class server extends javax.swing.JFrame {
                                     }
                                     String[] splitRow = row.split("\\s{1,100}");
                                     String info[] = {splitRow[0],splitRow[1],splitRow[2],splitRow[3],splitRow[4]+splitRow[5]};
-                                    out.writeObject(info);
-                                    out.flush();
+                                    output.writeObject(info);
+                                    output.flush();
                                 }
                             }
                         }catch(IOException e)
