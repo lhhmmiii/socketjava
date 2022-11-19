@@ -88,7 +88,7 @@ public class listApp extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Application", "Name Application", "Count Thread"
+                "ID Application", "Name Application", "Main Title Window"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
