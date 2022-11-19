@@ -401,7 +401,7 @@ public class server extends javax.swing.JFrame {
                 {
                     try {
                         String row = null;
-                        Process proc = Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
+                        Process proc = Runtime.getRuntime().exec("tasklist");
                         BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));                  
                         int soprocess = 0;
                         while(input.readLine() != null){
@@ -411,7 +411,7 @@ public class server extends javax.swing.JFrame {
                         program.out.write(soprocess1);
                         program.out.newLine();
                         program.out.flush();
-                        Process proc1 = Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
+                        Process proc1 = Runtime.getRuntime().exec(System.getenv("tasklist");
                         input = new BufferedReader(new InputStreamReader(proc1.getInputStream()));
                         ObjectOutputStream output = new ObjectOutputStream(program.server1.getOutputStream());
                         try {
