@@ -37,7 +37,6 @@ public class start extends javax.swing.JFrame {
         text = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("START APPLICATION");
 
         start.setText("Start");
         start.addActionListener(new java.awt.event.ActionListener() {
@@ -46,7 +45,7 @@ public class start extends javax.swing.JFrame {
             }
         });
 
-        text.setText("Nhập ID");
+        text.setText("Nhập exe");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
