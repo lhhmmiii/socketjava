@@ -300,7 +300,7 @@ public class server extends javax.swing.JFrame {
                 case "XEM":
                 {
                     try {
-                        String line = null;
+                        String row = null;
                         Process proc = Runtime.getRuntime().exec("powershell.exe Get-Process | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
                         BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));                  
                         int soprocess = 0;
@@ -317,7 +317,7 @@ public class server extends javax.swing.JFrame {
                         try {
                             for(int i = 0; i < soprocess ;i++) {
                                 row = input.readLine();
-                                row = line.trim();
+                                row = row.trim();
                                 if (i >= 3) 
                                 {
                                     if (i == soprocess - 2)
@@ -325,10 +325,10 @@ public class server extends javax.swing.JFrame {
                                         break;
                                     }
                                     row = row.replaceAll("\\s{1,100}", " ");
-                                    String[] splitRow = Row.split(" ",3);
+                                    String[] splitRow = row.split(" ",3);
                                     String info[] = {splitRow[0],splitRow[1],splitRow[2]};
-                                    out.writeObject(info);
-                                    out.flush();
+                                    output.writeObject(info);
+                                    output.flush();
                                 }
                             }
                         }
@@ -468,8 +468,8 @@ public class server extends javax.swing.JFrame {
                                     }
                                     String[] splitRow = row.split("\\s{1,100}");
                                     String info[] = {splitRow[0],splitRow[1],splitRow[2],splitRow[3],splitRow[4]+splitRow[5]};
-                                    out.writeObject(info);
-                                    out.flush();
+                                    output.writeObject(info);
+                                    output.flush();
                                 }
                             }
                         }catch(IOException e)
