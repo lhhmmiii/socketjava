@@ -41,6 +41,11 @@ public class kill extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("KILL APPLICATION");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         kill.setText("Kill");
         kill.addActionListener(new java.awt.event.ActionListener() {
@@ -102,6 +107,17 @@ public class kill extends javax.swing.JFrame {
             Logger.getLogger(kill.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_killActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            String s = "QUIT";
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

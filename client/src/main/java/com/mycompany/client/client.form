@@ -34,7 +34,7 @@
                       <Component id="process" pref="88" max="32767" attributes="0"/>
                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="shutdownrestart" pref="187" max="32767" attributes="0"/>
+                          <Component id="feature" pref="187" max="32767" attributes="0"/>
                           <Component id="app" alignment="0" max="32767" attributes="0"/>
                           <Component id="screen" alignment="1" max="32767" attributes="0"/>
                       </Group>
@@ -72,7 +72,7 @@
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="shutdownrestart" pref="76" max="32767" attributes="0"/>
+                          <Component id="feature" pref="76" max="32767" attributes="0"/>
                           <Component id="thoat" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -108,12 +108,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="processActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="shutdownrestart">
+    <Component class="javax.swing.JButton" name="feature">
       <Properties>
         <Property name="text" type="java.lang.String" value="Shutdown, Restart"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="shutdownrestartActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="featureActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="app">

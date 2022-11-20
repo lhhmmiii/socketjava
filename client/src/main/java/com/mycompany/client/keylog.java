@@ -40,6 +40,11 @@ public class keylog extends javax.swing.JFrame {
         txt = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         hook.setText("Hook");
         hook.addActionListener(new java.awt.event.ActionListener() {
@@ -136,19 +141,10 @@ public class keylog extends javax.swing.JFrame {
             program.out.write(s);
             program.out.newLine();
             program.out.flush();
-//            String text = program.in.readLine();
-//            txt.append(text);
-            char [] data=new char[5000];
-                int rec=program.in.read(data,0,5000);
-                if (rec==0)
-                {
-                    s="";
-
-                }
-                else{
-                    s=new String(data);
-                }
-                txt.setText(s);
+            String text = program.in.readLine();
+            txt.append(text);
+            String text2=program.in.readLine();
+            txt.append(text2);
         } catch (IOException ex) {
             Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -156,15 +152,18 @@ public class keylog extends javax.swing.JFrame {
     private void xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaActionPerformed
         txt.setText("");
     }//GEN-LAST:event_xoaActionPerformed
-//    private void keylog_Closing(java.awt.event.WindowEvent evt) {                                   
-//        try {
-//            String s = "QUIT";
-//            program.out.write(s);
-//            program.out.newLine();
-//            program.out.flush();
-//        } catch (IOException ex) {
-//            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            String s = "QUIT";
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */

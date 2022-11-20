@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -19,8 +20,10 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class pic extends javax.swing.JFrame {
+    
     public pic() {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -31,10 +34,15 @@ public class pic extends javax.swing.JFrame {
 
         capture = new javax.swing.JButton();
         save = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        screen = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("pic");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         capture.setText("Chụp");
         capture.addActionListener(new java.awt.event.ActionListener() {
@@ -55,7 +63,7 @@ public class pic extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(screen, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -70,80 +78,63 @@ public class pic extends javax.swing.JFrame {
                 .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(screen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void lam() throws IOException{
+
+    private void captureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_captureActionPerformed
         try {
-            Thread.sleep(120);
-            Robot r = new Robot();            
-            Rectangle capture=new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-            BufferedImage screen = r.createScreenCapture(capture);
-            jLabel1.getGraphics().drawImage(screen,0,0,jLabel1.getWidth(),jLabel1.getHeight(),null);    
-        }
-        catch (AWTException | InterruptedException ex) {
-            System.out.println(ex);
-        }
-    }
-    public void sent() throws AWTException{
-        try {
-            String s="TAKEPIC";
+            String s="TAKE";
             program.out.write(s);
             program.out.newLine();
             program.out.flush();
             OutputStream sOutToServer = program.client1.getOutputStream();
-            DataOutputStream out = new DataOutputStream(sOutToServer);
+            DataOutputStream dos = new DataOutputStream(sOutToServer);
             InputStream sInFromServer = program.client1.getInputStream();
-            DataInputStream in = new DataInputStream(sInFromServer);
+            DataInputStream dis = new DataInputStream(sInFromServer);
+            program.image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            Robot r = new Robot();            
-            Rectangle capture=new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-            BufferedImage screen = r.createScreenCapture(capture);
-            ImageIO.write(screen,"jpg",baos);
             byte[] size = ByteBuffer.allocate(4).putInt(baos.size()).array();
-            out.write(size);
-            out.write(baos.toByteArray());
-            out.flush();
-            program.client1.close();
+            dos.write(size);
+            dos.write(baos.toByteArray());
+            dos.flush(); 
+            screen.getGraphics().drawImage(program.image,0,0,screen.getWidth(),screen.getHeight(),null);
         } catch (IOException ex) {
             Logger.getLogger(pic.class.getName()).log(Level.SEVERE, null, ex);
-        }
-}
-    private void captureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_captureActionPerformed
-        try {
-            lam();
-            sent();
         } catch (AWTException ex) {
-            Logger.getLogger(pic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
             Logger.getLogger(pic.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_captureActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
-        JFileChooser chooser = new JFileChooser();
-        chooser.setDialogTitle("Choose a file to save"); 
-        int returnVal = chooser.showSaveDialog(null);
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
-            System.out.println("You chose to save this file: " +
-                    chooser.getSelectedFile().getName());
-        }
-        File file= new File(chooser.getSelectedFile().getAbsolutePath());
         try {
-            Thread.sleep(120);
-            Robot r = new Robot();           
-            Rectangle capture = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-            BufferedImage Image = r.createScreenCapture(capture);
-            ImageIO.write(Image, "jpg", file);
-            System.out.println("Screenshot saved");
-        }
-        catch (AWTException | IOException | InterruptedException ex) {
-            System.out.println(ex);
+            JFileChooser chooser = new JFileChooser();
+            chooser.setDialogTitle("Choose a file to save");
+            int saveimage = chooser.showSaveDialog(null);
+            if(saveimage == JFileChooser.APPROVE_OPTION) {
+                System.out.println("You chose to save this file: " +
+                        chooser.getSelectedFile().getName());
+            }
+            File file= new File(chooser.getSelectedFile().getAbsolutePath());
+            ImageIO.write(program.image, "jpg", file);
+        } catch (IOException ex) {
+            Logger.getLogger(pic.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_saveActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            String s = "QUIT";
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosing
     
     /**
      * @param args the command line arguments
@@ -182,8 +173,8 @@ public class pic extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton capture;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JButton save;
+    private javax.swing.JLabel screen;
     // End of variables declaration//GEN-END:variables
 
     private Object Robot() {
