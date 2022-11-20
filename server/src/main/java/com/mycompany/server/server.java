@@ -313,21 +313,21 @@ public class server extends javax.swing.JFrame {
                         program.out.flush();
                         Process proc1 = Runtime.getRuntime().exec("powershell.exe Get-Process | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
                         input = new BufferedReader(new InputStreamReader(proc1.getInputStream()));
-                        ObjectOutputStream out = new ObjectOutputStream(program.server1.getOutputStream());
+                        ObjectOutputStream output = new ObjectOutputStream(program.server1.getOutputStream());
                         try {
                             for(int i = 0; i < soprocess ;i++) {
-                                line = input.readLine();
-                                line = line.trim();
+                                row = input.readLine();
+                                row = line.trim();
                                 if (i >= 3) 
                                 {
                                     if (i == soprocess - 2)
                                     {
                                         break;
                                     }
-                                    line = line.replaceAll("\\s{1,100}", " ");
-                                    String[] splitline = line.split(" ",3);
-                                    String data[] = {splitline[0],splitline[1],splitline[2]};
-                                    out.writeObject(data);
+                                    row = row.replaceAll("\\s{1,100}", " ");
+                                    String[] splitRow = Row.split(" ",3);
+                                    String info[] = {splitRow[0],splitRow[1],splitRow[2]};
+                                    out.writeObject(info);
                                     out.flush();
                                 }
                             }
@@ -439,7 +439,7 @@ public class server extends javax.swing.JFrame {
                 case "XEM":
                 {
                     try {
-                        String line = null;
+                        String row = null;
                         Process proc = Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
                         BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));                  
                         int soprocess = 0;
@@ -452,23 +452,23 @@ public class server extends javax.swing.JFrame {
                         program.out.flush();
                         Process proc1 = Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
                         input = new BufferedReader(new InputStreamReader(proc1.getInputStream()));
-                        ObjectOutputStream out = new ObjectOutputStream(program.server1.getOutputStream());
+                        ObjectOutputStream output = new ObjectOutputStream(program.server1.getOutputStream());
                         try {
                             for(int i = 0; i < soprocess ;i++) {
-                                line = input.readLine();
-                                line = line.trim();
+                                row = input.readLine();
+                                row = row.trim();
                                 if (i >= 3)
                                 {
-                                    for (int u =0; u < line.length()-2;u++)
+                                    for (int j = 0; j < row.length() - 2; j++)
                                     {
-                                        if ((line.charAt(u) > 64 && line.charAt(u) <= 122) && (line.charAt(u+2) > 64 && line.charAt(u+2) <= 122) && line.charAt(u+1) == ' ')
+                                        if ((row.charAt(j) > 64 && row.charAt(j) <= 122) && (row.charAt(j + 2) > 64 && row.charAt(j + 2) <= 122) && row.charAt(j + 1) == ' ')
                                         {
-                                            line = line.substring(0,u+1)+"_"+line.substring(u+2,line.length());
+                                            row = line.substring(0, j + 1) + "_" + row.substring(j + 2, row.length());
                                         }
                                     }
-                                    String[] splitline = line.split("\\s{1,100}");
-                                    String data[] = {splitline[0],splitline[1],splitline[2],splitline[3],splitline[4]+splitline[5]};
-                                    out.writeObject(data);
+                                    String[] splitRow = row.split("\\s{1,100}");
+                                    String info[] = {splitRow[0],splitRow[1],splitRow[2],splitRow[3],splitRow[4]+splitRow[5]};
+                                    out.writeObject(info);
                                     out.flush();
                                 }
                             }
@@ -598,7 +598,7 @@ public class server extends javax.swing.JFrame {
         }
     
     ByteArrayOutputStream ous = null;
-    ObjectOutputStream out = null;
+    ObjectOutputStream output = null;
     BufferedReader input = null;
     OutputStream os = null;
     Process p = null;
