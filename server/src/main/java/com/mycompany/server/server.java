@@ -132,6 +132,14 @@ public class server extends javax.swing.JFrame {
                         process();
                         break;
                     }
+                    case "KILL" -> {
+                        kill();
+                        break;
+                    }
+                    case "START" -> {
+                        start();
+                        break;
+                    }
                     case "KEYLOG" -> {
                         keylogger();
                         break;
@@ -291,8 +299,8 @@ public class server extends javax.swing.JFrame {
         }
     }
     public void application() throws IOException{
-        boolean test1=true;
-        while (test1)
+        boolean test = true;
+        while (test)
         {
             receiveSignal();
             switch(program.signal)
@@ -342,96 +350,17 @@ public class server extends javax.swing.JFrame {
                     }
                     break;
                 }
-                 case "START":
-                 {
-                    boolean test = true;
-                    while(test)
-                    {
-                        receiveSignal();
-                        switch(program.signal)
-                        {
-                            case "STARTEXE" -> {
-                                String exe = program.in.readLine();
-                                if (exe != "ERROR")
-                                {
-                                    try {
-                                        ProcessBuilder procBuild = new ProcessBuilder();
-                                        procBuild.command(exe + ".exe");
-                                        procBuild.start();
-                                        program.out.write("Run program successfully!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    } catch (IOException ex) {
-                                        program.out.write("Run program fail!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    }
-                                } else {
-                                    program.out.write("Run program fail!");
-                                    program.out.newLine();
-                                    program.out.flush();
-                                    break;
-                                }
-                            }
-                            case "QUIT" -> {
-                                test = false;
-                                break;
-                            }
-                        }
-                    }
-                    break;
-                }
-                  case "KILL":
-                  {
-                    boolean test = true;
-                    while(test)
-                    {
-                        receiveSignal();
-                        switch(program.signal)
-                        {
-                            case "KILLID" -> {
-                                String pid = program.in.readLine();
-                                if (pid != "ERROR")
-                                {
-                                    try {
-                                        String[] cmd = {"taskkill", "/F", "/T", "/PID", pid};
-                                        ProcessBuilder procBuild = new ProcessBuilder();
-                                        procBuild.command(cmd);
-                                        procBuild.start();
-                                        program.out.write("Kill program successfully!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    } catch (IOException ex) {
-                                        program.out.write("Kill program fail!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    }
-                                } else {
-                                    program.out.write("Kill program fail!");
-                                    program.out.newLine();
-                                    program.out.flush();
-                                    break;
-                                }
-                            }
-                            case "QUIT" -> {
-                                test = false;
-                                break;
-                            }
-                        }
-                    }
-                    break;
-                  }
-                  case "QUIT":
-                  {
-                      test1=false;
+                case "QUIT":
+                {
+                      test = false;
                       break;
-                  }
+                }
             }
         }
     }
     public void process() throws IOException{
-        boolean test1=true;
-         while (test1)
+        boolean test = true;
+         while (test)
         {
             receiveSignal();
             switch(program.signal)
@@ -440,7 +369,7 @@ public class server extends javax.swing.JFrame {
                 {
                     try {
                         String row = null;
-                        Process proc = Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
+                        Process proc = Runtime.getRuntime().exec("tasklist");
                         BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));                  
                         int soprocess = 0;
                         while(input.readLine() != null){
@@ -450,7 +379,7 @@ public class server extends javax.swing.JFrame {
                         program.out.write(soprocess1);
                         program.out.newLine();
                         program.out.flush();
-                        Process proc1 = Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
+                        Process proc1 = Runtime.getRuntime().exec("tasklist");
                         input = new BufferedReader(new InputStreamReader(proc1.getInputStream()));
                         ObjectOutputStream output = new ObjectOutputStream(program.server1.getOutputStream());
                         try {
@@ -463,7 +392,7 @@ public class server extends javax.swing.JFrame {
                                     {
                                         if ((row.charAt(j) > 64 && row.charAt(j) <= 122) && (row.charAt(j + 2) > 64 && row.charAt(j + 2) <= 122) && row.charAt(j + 1) == ' ')
                                         {
-                                            row = line.substring(0, j + 1) + "_" + row.substring(j + 2, row.length());
+                                            row = row.substring(0, j + 1) + "_" + row.substring(j + 2, row.length());
                                         }
                                     }
                                     String[] splitRow = row.split("\\s{1,100}");
@@ -482,91 +411,92 @@ public class server extends javax.swing.JFrame {
                       JOptionPane.showMessageDialog(null,e);
                     }
                 }
-                 case "START":
-                 {
-                    boolean test = true;
-                    while(test)
-                    {
-                        receiveSignal();
-                        switch(program.signal)
-                        {
-                            case "STARTEXE" -> {
-                                String exe = program.in.readLine();
-                                if (exe != "ERROR")
-                                {
-                                    try {
-                                        ProcessBuilder pBuild = new ProcessBuilder();
-                                        pBuild.command(exe + ".exe");
-                                        pBuild.start();
-                                        program.out.write("Run program successfully!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    } catch (IOException ex) {
-                                        program.out.write("Run program fail!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    }
-                                } else {
-                                    program.out.write("Run program fail!");
-                                    program.out.newLine();
-                                    program.out.flush();
-                                    break;
-                                }
-                            }
-                            case "QUIT" -> {
-                                test = false;
-                                break;
-                            }
-                        }
-                    }
-                }
-                  case "KILL":
-                  {
-                    boolean test = true;
-                    while(test)
-                    {
-                        receiveSignal();
-                        switch(program.signal)
-                        {
-                            case "KILLID" -> {
-                                String pid = program.in.readLine();
-                                if (pid != "ERROR")
-                                {
-                                    try {
-                                        String[] cmd = {"taskkill", "/F", "/T", "/PID", pid};
-                                        ProcessBuilder pBuild = new ProcessBuilder();
-                                        pBuild.command(cmd);
-                                        pBuild.start();
-                                        program.out.write("Kill program successfully!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    } catch (IOException ex) {
-                                        program.out.write("Kill program fail!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    }
-                                } else {
-                                    program.out.write("Kill program fail!");
-                                    program.out.newLine();
-                                    program.out.flush();
-                                    break;
-                                }
-                            }
-                            case "QUIT" -> {
-                                test = false;
-                                break;
-                            }
-                        }
-                    }
-                  }
-                  case "QUIT":
-                  {
-                      test1=false;
+                case "QUIT":
+                {
+                      test = false;
                       break;
                 }
             }
         }
     }
+    
+    public void kill() throws IOException
+    {
+        boolean test = true;
+        while(test)
+        {
+            receiveSignal();
+            switch(program.signal)
+            {
+                case "KILLID" -> {
+                    String pid = program.in.readLine();
+                    if (pid != "ERROR")
+                    {
+                        try {
+                            Runtime.getRuntime().exec("taskkill /F /T /PID " + pid);
+                            program.out.write("Kill program successfully!");
+                            program.out.newLine();
+                            program.out.flush();
+                        } catch (IOException ex) {
+                            program.out.write("Kill program fail!");
+                            program.out.newLine();
+                            program.out.flush();
+                        }
+                    } else {
+                        program.out.write("Kill program fail!");
+                        program.out.newLine();
+                        program.out.flush();
+                        break;
+                    }
+                }
+                case "QUIT" -> {
+                    test = false;
+                    break;
+                }
+            }
+        }
+    }
+    
+    public void start() throws IOException
+    {
+        boolean test = true;
+        while(test)
+        {
+            receiveSignal();
+            switch(program.signal)
+            {
+                case "STARTEXE" -> {
+                    String exe = program.in.readLine();
+                    if (exe != "ERROR")
+                    {
+                        try {
+                            //ProcessBuilder pBuild = new ProcessBuilder();
+                            //pBuild.command(exe + ".exe");
+                            //pBuild.start();
+                            Runtime.getRuntime().exec("powershell " + "start " + exe + ".exe");
+                            program.out.write("Run program successfully!");
+                            program.out.newLine();
+                            program.out.flush();
+                        } catch (IOException ex) {
+                            program.out.write("Run program fail!");
+                            program.out.newLine();
+                            program.out.flush();
+                        }
+                    } else {
+                        program.out.write("Run program fail!");
+                        program.out.newLine();
+                        program.out.flush();
+                        break;
+                    }
+                }
+                case "QUIT" -> {
+                    test = false;
+                    break;
+                }
+            }
+        }
+    }
+    
     public void takepic() throws IOException
         {
             boolean test=true;
