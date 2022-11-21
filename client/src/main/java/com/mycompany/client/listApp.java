@@ -135,19 +135,6 @@ public class listApp extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void killappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_killappActionPerformed
-        try {
-            String s="KILL";
-            program.out.write(s);
-            program.out.newLine();
-            program.out.flush();
-            kill Kill =new kill();
-            Kill.setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_killappActionPerformed
-
     private void xemappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xemappActionPerformed
         try {
             String s = "XEM";
@@ -175,14 +162,19 @@ public class listApp extends javax.swing.JFrame {
             Logger.getLogger(listApp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_xemappActionPerformed
-
-    private void closeappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeappActionPerformed
-        DefaultTableModel defTable = (DefaultTableModel)jTable1.getModel();
-        while(defTable.getRowCount() > 0)
-        {
-            defTable.removeRow(0);
+    
+    private void killappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_killappActionPerformed
+        try {
+            String s="KILL";
+            program.out.write(s);
+            program.out.newLine();
+            program.out.flush();
+            kill Kill =new kill();
+            Kill.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_closeappActionPerformed
+    }//GEN-LAST:event_killappActionPerformed
 
     private void startappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startappActionPerformed
         try {
@@ -211,6 +203,14 @@ public class listApp extends javax.swing.JFrame {
             Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowClosing
+    
+    private void closeappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeappActionPerformed
+        DefaultTableModel defTable = (DefaultTableModel)jTable1.getModel();
+        while(defTable.getRowCount() > 0)
+        {
+            defTable.removeRow(0);
+        }
+    }//GEN-LAST:event_closeappActionPerformed
     
     /**
      * @param args the command line arguments
