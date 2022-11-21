@@ -132,14 +132,14 @@ public class server extends javax.swing.JFrame {
                         process();
                         break;
                     }
-//                    case "KILL" -> {
-//                        kill();
-//                        break;
-//                    }
-//                    case "START" -> {
-//                        start();
-//                        break;
-//                    }
+                    case "KILL" -> {
+                        kill();
+                        break;
+                    }
+                    case "START" -> {
+                        start();
+                        break;
+                    }
                     case "KEYLOG" -> {
                         keylogger();
                         break;
@@ -433,8 +433,8 @@ public class server extends javax.swing.JFrame {
         }
     }
     public void process() throws IOException{
-        boolean test1=true;
-         while (test1)
+        boolean test = true;
+        while (test)
         {
             receiveSignal();
             switch(program.signal)
@@ -485,82 +485,84 @@ public class server extends javax.swing.JFrame {
                       JOptionPane.showMessageDialog(null,e);
                     }
                 }
-                 case "START":
-                 {
-                    boolean test = true;
-                    while(test)
-                    {
-                        receiveSignal();
-                        switch(program.signal)
-                        {
-                            case "STARTEXE" -> {
-                                String exe = program.in.readLine();
-                                if (exe != "ERROR")
-                                {
-                                    try {
-                                        Runtime.getRuntime().exec("powershell " + "start " + exe + ".exe");
-                                        program.out.write("Run program successfully!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    } catch (IOException ex) {
-                                        program.out.write("Run program fail!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    }
-                                } else {
-                                    program.out.write("Run program fail!");
-                                    program.out.newLine();
-                                    program.out.flush();
-                                    break;
-                                }
-                            }
-                            case "QUIT" -> {
-                                test = false;
-                                break;
-                            }
-                        }
-                    }
-                }
-                  case "KILL":
-                  {
-                    boolean test = true;
-                    while(test)
-                    {
-                        receiveSignal();
-                        switch(program.signal)
-                        {
-                            case "KILLID" -> {
-                                String pid = program.in.readLine();
-                                if (pid != "ERROR")
-                                {
-                                    try {
-                                        Runtime.getRuntime().exec("taskkill /F /T /PID " + pid);
-                                        program.out.write("Kill program successfully!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    } catch (IOException ex) {
-                                        program.out.write("Kill program fail!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    }
-                                } else {
-                                    program.out.write("Kill program fail!");
-                                    program.out.newLine();
-                                    program.out.flush();
-                                    break;
-                                }
-                            }
-                            case "QUIT" -> {
-                                test = false;
-                                break;
-                            }
-                        }
-                    }
-                  }
                   case "QUIT":
                   {
-                      test1=false;
+                      test=false;
                       break;
+                }
+            }
+        }
+    }
+    
+    public void kill() throws IOException
+    {
+        boolean test = true;
+        while(test)
+        {
+            receiveSignal();
+            switch(program.signal)
+            {
+                case "KILLID" -> {
+                    String pid = program.in.readLine();
+                    if (pid != "ERROR")
+                    {
+                        try {
+                        Runtime.getRuntime().exec("taskkill /F /T /PID " + pid);
+                        program.out.write("Kill program successfully!");
+                        program.out.newLine();
+                        program.out.flush();
+                        } catch (IOException ex) {
+                            program.out.write("Kill program fail!");
+                            program.out.newLine();
+                            program.out.flush();
+                        }
+                    } else {
+                        program.out.write("Kill program fail!");
+                        program.out.newLine();
+                        program.out.flush();
+                        break;
+                    }
+                }
+                case "QUIT" -> {
+                    test = false;
+                    break;
+                }
+            }
+        }
+    }
+    
+    public void start() throws IOException
+    {
+        boolean test = true;
+        while(test)
+        {
+            receiveSignal();
+            switch(program.signal)
+            {
+                case "STARTEXE" -> {
+                    String exe = program.in.readLine();
+                    if (exe != "ERROR")
+                    {
+                        try {
+                            Runtime.getRuntime().exec("powershell " + "start " + exe + ".exe");
+                            program.out.write("Run program successfully!");
+                            program.out.newLine();
+                            program.out.flush();
+                        } catch (IOException ex) {
+                            program.out.write("Run program fail!");
+                            program.out.newLine();
+                            program.out.flush();
+                        }
+                    } else {
+                        program.out.write("Run program fail!");
+                        program.out.newLine();
+                        program.out.flush();
+                        break;
+                    }
+                }
+                case "QUIT" -> {
+                    test = false;
+                    break;
                 }
             }
         }
