@@ -300,8 +300,8 @@ public class server extends javax.swing.JFrame {
         }
     }
     public void application() throws IOException{
-        boolean test1 = true;
-        while (test1)
+        boolean test = true;
+        while (test)
         {
             receiveSignal();
             switch(program.signal)
@@ -351,85 +351,6 @@ public class server extends javax.swing.JFrame {
                     }
                     break;
                 }
-                 case "START":
-                 {
-                    boolean test = true;
-                    while(test)
-                    {
-                        receiveSignal();
-                        switch(program.signal)
-                        {
-                            case "STARTEXE" -> {
-                                String exe = program.in.readLine();
-                                if (exe != "ERROR")
-                                {
-                                    try {
-                                        ProcessBuilder procBulid = new ProcessBuilder();
-                                        procBuild.command(exe + ".exe");
-                                        procBuild.start();
-                                        program.out.write("Run program successfully!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    } catch (IOException ex) {
-                                        program.out.write("Run program fail!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    }
-                                } else {
-                                    program.out.write("Run program fail!");
-                                    program.out.newLine();
-                                    program.out.flush();
-                                    break;
-                                }
-                            }
-                            case "QUIT" -> {
-                                test = false;
-                                break;
-                            }
-                        }
-                    }
-                    break;
-                }
-                  case "KILL":
-                  {
-                    boolean test = true;
-                    while(test)
-                    {
-                        receiveSignal();
-                        switch(program.signal)
-                        {
-                            case "KILLID" -> {
-                                String pid = program.in.readLine();
-                                if (pid != "ERROR")
-                                {
-                                    try {
-                                        String[] cmd = {"taskkill", "/F", "/T", "/PID", pid};
-                                        ProcessBuilder procBuild = new ProcessBuilder();
-                                        procBuild.command(cmd);
-                                        procBuild.start();
-                                        program.out.write("Kill program successfully!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    } catch (IOException ex) {
-                                        program.out.write("Kill program fail!");
-                                        program.out.newLine();
-                                        program.out.flush();
-                                    }
-                                } else {
-                                    program.out.write("Kill program fail!");
-                                    program.out.newLine();
-                                    program.out.flush();
-                                    break;
-                                }
-                            }
-                            case "QUIT" -> {
-                                test = false;
-                                break;
-                            }
-                        }
-                    }
-                    break;
-                  }
                   case "QUIT":
                   {
                       test1=false;
