@@ -333,8 +333,8 @@ public class server extends javax.swing.JFrame {
                                         break;
                                     }
                                     row = row.replaceAll("\\s{1,100}", " ");
-                                    String[] splitline = row.split(" ",3);
-                                    String data[] = {splitline[0],splitline[1],splitline[2]};
+                                    String[] splitRow = row.split(" ",3);
+                                    String info[] = {splitRow[0],splitRow[1],splitRow[2]};
                                     output.writeObject(data);
                                     output.flush();
                                 }
@@ -363,7 +363,9 @@ public class server extends javax.swing.JFrame {
                                 if (exe != "ERROR")
                                 {
                                     try {
-                                        Runtime.getRuntime().exec("powershell " + "start " + exe + ".exe");
+                                        ProcessBuilder procBulid = new ProcessBuilder();
+                                        procBuild.command(exe + ".exe");
+                                        procBuild.start();
                                         program.out.write("Run program successfully!");
                                         program.out.newLine();
                                         program.out.flush();
@@ -400,7 +402,10 @@ public class server extends javax.swing.JFrame {
                                 if (pid != "ERROR")
                                 {
                                     try {
-                                        Runtime.getRuntime().exec("taskkill /F /T /PID " + pid);
+                                        String[] cmd = {"taskkill", "/F", "/T", "/PID", pid};
+                                        ProcessBuilder procBuild = new ProcessBuilder();
+                                        procBuild.command(cmd);
+                                        procBuild.start();
                                         program.out.write("Kill program successfully!");
                                         program.out.newLine();
                                         program.out.flush();
@@ -507,7 +512,10 @@ public class server extends javax.swing.JFrame {
                     if (pid != "ERROR")
                     {
                         try {
-                        Runtime.getRuntime().exec("taskkill /F /T /PID " + pid);
+                        String[] cmd = {"taskkill", "/F", "/T", "/PID", pid};
+                        ProcessBuilder procBuild = new ProcessBuilder();
+                        procBuild.command(cmd);
+                        procBuild.start();
                         program.out.write("Kill program successfully!");
                         program.out.newLine();
                         program.out.flush();
@@ -544,7 +552,9 @@ public class server extends javax.swing.JFrame {
                     if (exe != "ERROR")
                     {
                         try {
-                            Runtime.getRuntime().exec("powershell " + "start " + exe + ".exe");
+                            ProcessBuilder procBulid = new ProcessBuilder();
+                            procBuild.command(exe + ".exe");
+                            procBuild.start();
                             program.out.write("Run program successfully!");
                             program.out.newLine();
                             program.out.flush();
