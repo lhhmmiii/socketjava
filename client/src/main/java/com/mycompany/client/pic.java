@@ -1,11 +1,13 @@
 package com.mycompany.client;
 
 import java.awt.AWTException;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -13,6 +15,7 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.logging.Level;
@@ -86,42 +89,37 @@ public class pic extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void captureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_captureActionPerformed
-        try {
-            String s="TAKE";
+                String s="TAKE"; 
+    try {
+            Image i = null;
             program.out.write(s);
             program.out.newLine();
             program.out.flush();
-            OutputStream sOutToServer = program.client1.getOutputStream();
-            DataOutputStream dos = new DataOutputStream(sOutToServer);
-            InputStream sInFromServer = program.client1.getInputStream();
-            DataInputStream dis = new DataInputStream(sInFromServer);
-            program.image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] size = ByteBuffer.allocate(4).putInt(baos.size()).array();
-            dos.write(size);
-            dos.write(baos.toByteArray());
-            dos.flush(); 
-            screen.getGraphics().drawImage(program.image,0,0,screen.getWidth(),screen.getHeight(),null);
+            ObjectInputStream oin = new ObjectInputStream(program.client1.getInputStream());
+            byte[] bytes = (byte[]) oin.readObject();
+            i = ImageIO.read(new ByteArrayInputStream(bytes));
+            Image img1 = i;
+            screen.setIcon(new ImageIcon(img1.getScaledInstance(screen.getWidth(),screen.getHeight(), Image.SCALE_DEFAULT)));
+            program.image = i;
         } catch (IOException ex) {
-            Logger.getLogger(pic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AWTException ex) {
-            Logger.getLogger(pic.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_captureActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
-        try {
-            JFileChooser chooser = new JFileChooser();
-            chooser.setDialogTitle("Choose a file to save");
-            int saveimage = chooser.showSaveDialog(null);
-            if(saveimage == JFileChooser.APPROVE_OPTION) {
-                System.out.println("You chose to save this file: " +
-                        chooser.getSelectedFile().getName());
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Choose a file to save");
+        chooser.setFileFilter(new FileNameExtensionFilter("*.jpg", "jpg"));
+        int saveimage = chooser.showSaveDialog(null);
+        if (saveimage == JFileChooser.APPROVE_OPTION) {
+            File file = chooser.getSelectedFile();
+            try {
+                ImageIO.write((RenderedImage) program.image, "jng", new File(file.getAbsolutePath()+".jng"));
+            } catch (IOException ex) {
+                Logger.getLogger(pic.class.getName()).log(Level.SEVERE, null, ex);
             }
-            File file= new File(chooser.getSelectedFile().getAbsolutePath());
-            ImageIO.write(program.image, "jpg", file);
-        } catch (IOException ex) {
-            Logger.getLogger(pic.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_saveActionPerformed
 

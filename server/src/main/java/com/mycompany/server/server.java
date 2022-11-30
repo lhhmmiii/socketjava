@@ -8,6 +8,7 @@ import com.github.kwhat.jnativehook.NativeHookException;
 import com.sun.jdi.NativeMethodException;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -580,35 +581,22 @@ public class server extends javax.swing.JFrame {
     
     public void takepic() throws IOException
         {
-            boolean test=true;
-            while(test){
-                switch(program.signal){
-                    case "TAKE"->{
                         try{
-                            DataInputStream in = new DataInputStream(program.server1.getInputStream());
-                            DataOutputStream out = new DataOutputStream(program.server1.getOutputStream());
-                            byte[] sizeAr = new byte[4];
-                            in.read(sizeAr);
-                            int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
-                            byte[] imageAr = new byte[size];
-                            in.read(imageAr);
-                            BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageAr));
-                            ImageIO.write(image, "jpg", new File("screen.jpg"));
-                            JLabel label = new JLabel();
-                            label.setIcon(new ImageIcon(image));
-                        }catch(IOException e){
-                            e.printStackTrace();
-                        } 
-                    }
-                    case "QUIT"->{
-                        test=false;
-                        break;
-                    }
-                }
-            }       
+            robot = new Robot();
+            OutputStream os = program.server1.getOutputStream();
+            baos = new ByteArrayOutputStream();
+            bimg = robot.createScreenCapture(new Rectangle(0,0,(int) d.getWidth(), (int) d.getHeight()));
+            ImageIO.write(bimg, "jpg", baos);
+            byte[] bytes = baos.toByteArray();
+            ObjectOutputStream out = new ObjectOutputStream(program.server1.getOutputStream()) ;
+            out.writeObject(bytes); 
+            return;
+            } catch(Exception ex){
+                JOptionPane.showMessageDialog(null,ex);
+            }
         }
     
-    ByteArrayOutputStream ous = null;
+    ByteArrayOutputStream baos = null;
     ObjectOutputStream output = null;
     BufferedReader input = null;
     OutputStream os = null;
