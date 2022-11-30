@@ -309,7 +309,7 @@ public class server extends javax.swing.JFrame {
                 {
                     try {
                         String row = null;
-                        Process proc = Runtime.getRuntime().exec("powershell.exe Get-Process | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
+                        Process proc = Runtime.getRuntime().exec("powershell \"gps | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
                         BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));                  
                         int soprocess = 0;
                         while(input.readLine() != null){
@@ -319,7 +319,7 @@ public class server extends javax.swing.JFrame {
                         program.out.write(soprocess1);
                         program.out.newLine();
                         program.out.flush();
-                        Process proc1 = Runtime.getRuntime().exec("powershell.exe Get-Process | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
+                        Process proc1 = Runtime.getRuntime().exec("powershell \"gps | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
                         input = new BufferedReader(new InputStreamReader(proc1.getInputStream()));
                         ObjectOutputStream output = new ObjectOutputStream(program.server1.getOutputStream());
                         try {
