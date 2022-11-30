@@ -82,7 +82,7 @@ public class listProcess extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Name Process", "ID Process", "Count Thread"
+                "Name Process", "PID", "Session Name", "Session", "Mem Usage"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
