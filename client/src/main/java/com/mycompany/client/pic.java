@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.logging.Level;
@@ -89,7 +90,7 @@ public class pic extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void captureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_captureActionPerformed
-                String s="TAKE"; 
+        String s="TAKE"; 
     try {
             Image i = null;
             program.out.write(s);

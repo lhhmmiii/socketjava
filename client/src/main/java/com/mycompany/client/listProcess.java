@@ -43,6 +43,7 @@ public class listProcess extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Process");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -82,7 +83,7 @@ public class listProcess extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Name Process", "PID", "Session Name", "Session", "Mem Usage"
+                "Name Process", "ID Process", "Count Thread"
             }
         ));
         jScrollPane1.setViewportView(jTable1);

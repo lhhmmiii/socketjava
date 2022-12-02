@@ -23,13 +23,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import static java.lang.System.out;
 import java.nio.ByteBuffer;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 /**
  *
  * @author LEGION
@@ -111,35 +111,35 @@ public class server extends javax.swing.JFrame {
                     }
                     case "SHUTDOWN" ->{
                         shutdown();
-                        break;
+                        //break;
                     }
                     case "RESTART"->{
                         restart();
-                        break;
+                        //break;
                     }
                     case "HIBERNATE"-> {
                         hibernate();
-                        break;
+                        //break;
                     }
                     case "APPLICATION" -> {
                         application();
-                        break;
+                        //break;
                     }
                     case "LOGOFF" -> {
                         logoff();
-                        break;
+                        //break;
                     }
                     case "PROCESS" -> {
                         process();
-                        break;
+                        //break;
                     }
                     case "KILL" -> {
                         kill();
-                        break;
+                        //break;
                     }
                     case "START" -> {
                         start();
-                        break;
+                        //break;
                     }
                     case "KEYLOG" -> {
                         keylogger();
@@ -281,13 +281,13 @@ public class server extends javax.swing.JFrame {
     {
         try{
             Runtime runtime = Runtime.getRuntime();
-            Process proc = runtime.exec("shutdown -l");
+            Process proc = runtime.exec("shutdown -l -t 5");
             System.exit(0);
         } catch (IOException ex)
         {
             JOptionPane.showMessageDialog(null,ex);
         }
-    }
+    }    
     public void hibernate()
     {
         try{
@@ -300,8 +300,8 @@ public class server extends javax.swing.JFrame {
         }
     }
     public void application() throws IOException{
-        boolean test = true;
-        while (test)
+        boolean test1=true;
+        while (test1)
         {
             receiveSignal();
             switch(program.signal)
@@ -310,7 +310,8 @@ public class server extends javax.swing.JFrame {
                 {
                     try {
                         String row = null;
-                        Process proc = Runtime.getRuntime().exec("powershell.exe get-process | where-object {$_.mainwindowhandle -ne 0} | select-object name, Id, mainwindowtitle");
+                        Process proc = Runtime.getRuntime().exec("powershell.exe Get-Process | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
+                        //Process proc = Runtime.getRuntime().exec("cmd Get-Process | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Count Thread –AutoSize");
                         BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));                  
                         int soprocess = 0;
                         while(input.readLine() != null){
@@ -320,7 +321,8 @@ public class server extends javax.swing.JFrame {
                         program.out.write(soprocess1);
                         program.out.newLine();
                         program.out.flush();
-                        Process proc1 = Runtime.getRuntime().exec("powershell.exe get-process | where-object {$_.mainwindowhandle -ne 0} | select-object name, Id, mainwindowtitle");
+                        Process proc1 = Runtime.getRuntime().exec("powershell.exe Get-Process | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
+                        //Process proc1 = Runtime.getRuntime().exec("cmd Get-Process | Where-Object { $_.MainWindowTitle } | Format-Table ID,Name,Mainwindowtitle –AutoSize");
                         input = new BufferedReader(new InputStreamReader(proc1.getInputStream()));
                         ObjectOutputStream output = new ObjectOutputStream(program.server1.getOutputStream());
                         try {
@@ -334,9 +336,9 @@ public class server extends javax.swing.JFrame {
                                         break;
                                     }
                                     row = row.replaceAll("\\s{1,100}", " ");
-                                    String[] splitRow = row.split(" ",3);
-                                    String info[] = {splitRow[0],splitRow[1],splitRow[2]};
-                                    output.writeObject(info);
+                                    String[] splitline = row.split(" ",3);
+                                    String data[] = {splitline[0],splitline[1],splitline[2]};
+                                    output.writeObject(data);
                                     output.flush();
                                 }
                             }
@@ -351,6 +353,80 @@ public class server extends javax.swing.JFrame {
                     }
                     break;
                 }
+                 case "START":
+                {
+                    boolean test = true;
+                    while(test)
+                    {
+                        receiveSignal();
+                        switch(program.signal)
+                        {
+                            case "STARTEXE" -> {
+                                String exe = program.in.readLine();
+                                if (exe != "ERROR")
+                                {
+                                    try {
+                                        Runtime.getRuntime().exec("powershell " + "start " + exe + ".exe");
+                                        program.out.write("Run program successfully!");
+                                        program.out.newLine();
+                                        program.out.flush();
+                                    } catch (IOException ex) {
+                                        program.out.write("Run program fail!");
+                                        program.out.newLine();
+                                        program.out.flush();
+                                    }
+                                } else {
+                                    program.out.write("Run program fail!");
+                                    program.out.newLine();
+                                    program.out.flush();
+                                    break;
+                                }
+                            }
+                            case "QUIT" -> {
+                                test = false;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                }
+                  case "KILL":
+                  {
+                    boolean test = true;
+                    while(test)
+                    {
+                        receiveSignal();
+                        switch(program.signal)
+                        {
+                            case "KILLID" -> {
+                                String pid = program.in.readLine();
+                                if (pid != "ERROR")
+                                {
+                                    try {
+                                        Runtime.getRuntime().exec("taskkill /F /T /PID " + pid);
+                                        program.out.write("Kill program successfully!");
+                                        program.out.newLine();
+                                        program.out.flush();
+                                    } catch (IOException ex) {
+                                        program.out.write("Kill program fail!");
+                                        program.out.newLine();
+                                        program.out.flush();
+                                    }
+                                } else {
+                                    program.out.write("Kill program fail!");
+                                    program.out.newLine();
+                                    program.out.flush();
+                                    break;
+                                }
+                            }
+                            case "QUIT" -> {
+                                test = false;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                  }
                   case "QUIT":
                   {
                       test1=false;
@@ -434,10 +510,7 @@ public class server extends javax.swing.JFrame {
                     if (pid != "ERROR")
                     {
                         try {
-                        String[] cmd = {"taskkill", "/F", "/T", "/PID", pid};
-                        ProcessBuilder procBuild = new ProcessBuilder();
-                        procBuild.command(cmd);
-                        procBuild.start();
+                        Runtime.getRuntime().exec("taskkill /F /T /PID " + pid);
                         program.out.write("Kill program successfully!");
                         program.out.newLine();
                         program.out.flush();
@@ -474,9 +547,7 @@ public class server extends javax.swing.JFrame {
                     if (exe != "ERROR")
                     {
                         try {
-                            ProcessBuilder procBulid = new ProcessBuilder();
-                            procBuild.command(exe + ".exe");
-                            procBuild.start();
+                            Runtime.getRuntime().exec("cmd " + "start " + exe + ".exe");
                             program.out.write("Run program successfully!");
                             program.out.newLine();
                             program.out.flush();
@@ -502,7 +573,7 @@ public class server extends javax.swing.JFrame {
     
     public void takepic() throws IOException
         {
-                        try{
+            try{
             robot = new Robot();
             OutputStream os = program.server1.getOutputStream();
             baos = new ByteArrayOutputStream();
@@ -520,7 +591,6 @@ public class server extends javax.swing.JFrame {
     ByteArrayOutputStream baos = null;
     ObjectOutputStream output = null;
     BufferedReader input = null;
-    OutputStream os = null;
     Process p = null;
     Process p1 = null;
     private Dimension d = Toolkit.getDefaultToolkit().getScreenSize();

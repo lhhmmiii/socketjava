@@ -133,6 +133,6 @@ public class KeyLogger implements NativeKeyListener {
 
 
     public void nativeKeyTyped(NativeKeyEvent evt) {         
-        s+=s.toLowerCase();
+        s=s.toLowerCase();
     }
 }
