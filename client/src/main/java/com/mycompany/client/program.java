@@ -18,7 +18,8 @@ public class program {
     static public BufferedReader in;
     static public BufferedWriter out;
     public static String ip;
-    public static Image image;
+    //public static Image image;
+    public static BufferedImage image;
     public static void main(String args[]) {
            client client = new client();
            client.setVisible(true);

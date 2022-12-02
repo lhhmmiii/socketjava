@@ -2,22 +2,14 @@ package com.mycompany.client;
 
 import java.awt.AWTException;
 import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.Robot;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -92,19 +84,18 @@ public class pic extends javax.swing.JFrame {
     private void captureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_captureActionPerformed
         String s="TAKE"; 
     try {
-            Image i = null;
             program.out.write(s);
             program.out.newLine();
             program.out.flush();
-            ObjectInputStream oin = new ObjectInputStream(program.client1.getInputStream());
-            byte[] bytes = (byte[]) oin.readObject();
-            i = ImageIO.read(new ByteArrayInputStream(bytes));
-            Image img1 = i;
-            screen.setIcon(new ImageIcon(img1.getScaledInstance(screen.getWidth(),screen.getHeight(), Image.SCALE_DEFAULT)));
-            program.image = i;
+            DataInputStream dis = new DataInputStream(program.client1.getInputStream());
+            byte[] sizeAr = new byte[4];
+            dis.read(sizeAr);
+            int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
+            byte[] imageAr = new byte[size];
+            dis.read(imageAr);
+            program.image=ImageIO.read(new ByteArrayInputStream(imageAr));
+            screen.setIcon(new ImageIcon(program.image.getScaledInstance(screen.getWidth(),screen.getHeight(), Image.SCALE_DEFAULT)));
         } catch (IOException ex) {
-            Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
             Logger.getLogger(client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_captureActionPerformed
@@ -117,7 +108,7 @@ public class pic extends javax.swing.JFrame {
         if (saveimage == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
             try {
-                ImageIO.write((RenderedImage) program.image, "jng", new File(file.getAbsolutePath()+".jng"));
+                ImageIO.write((RenderedImage) program.image, "jpg", new File(file.getAbsolutePath()+".jpg"));
             } catch (IOException ex) {
                 Logger.getLogger(pic.class.getName()).log(Level.SEVERE, null, ex);
             }
